@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 import static com.gustavoacacio.listadecompra.core.config.QueueRabbitMQConfig.TOPICO_LISTA_CRIOU_HISTORICO;
 
 @Component
-public class ItemConsumer {
+public class HistoricoItemConsumer {
 
     private final HistoricoItemService historicoItemService;
 
-    public ItemConsumer(HistoricoItemService historicoItemService) {
+    public HistoricoItemConsumer(HistoricoItemService historicoItemService) {
         this.historicoItemService = historicoItemService;
     }
 
