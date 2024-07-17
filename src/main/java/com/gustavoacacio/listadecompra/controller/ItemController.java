@@ -24,7 +24,8 @@ public class ItemController {
     }
 
     @GetMapping("/{nome}")
-    public ResponseEntity<Page<ItemDto>> listarPorNome(@PathVariable String nome, @PageableDefault(page = 0, size = 5) Pageable pageable) {
+    public ResponseEntity<Page<ItemDto>> listarPorNome(@PathVariable String nome,
+                                                       @PageableDefault(page = 0, size = 20) Pageable pageable) {
         return ResponseEntity.ok(itemService.listarPorNome(nome, pageable));
     }
 }
