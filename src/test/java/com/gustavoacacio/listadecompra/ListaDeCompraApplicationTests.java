@@ -1,15 +1,11 @@
 package com.gustavoacacio.listadecompra;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.NestedTestConfiguration;
 
-@SpringBootTest
-class ListaDeCompraApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
+@SpringBootTest(classes = ListaDeCompraApplication.class)
+@NestedTestConfiguration(NestedTestConfiguration.EnclosingConfiguration.OVERRIDE)
+public abstract class ListaDeCompraApplicationTests {
 
 	static {
 		System.setProperty("spring.profiles.active", "test");

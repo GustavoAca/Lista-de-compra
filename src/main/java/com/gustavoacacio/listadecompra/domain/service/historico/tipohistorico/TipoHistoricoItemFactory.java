@@ -2,7 +2,6 @@ package com.gustavoacacio.listadecompra.domain.service.historico.tipohistorico;
 
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
 import com.gustavoacacio.listadecompra.domain.model.historico.HistoricoItem;
-import com.gustavoacacio.listadecompra.domain.model.historico.TipoHistoricoService;
 import org.springframework.stereotype.Component;
 
 @Component

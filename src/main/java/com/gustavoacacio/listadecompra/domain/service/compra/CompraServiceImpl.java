@@ -19,7 +19,6 @@ import java.util.Objects;
 public class CompraServiceImpl extends ServiceAbstract<Compra, Long, CompraRepository> implements CompraService {
 
     private final CompraMapper compraMapper;
-
     private final ItemService itemService;
     private final ItemProducer itemProducer;
 
