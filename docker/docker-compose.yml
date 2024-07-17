@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  postgres:
+    shm_size: 1g
+    image: postgres:14-alpine
+    container_name: dev-compras
+    environment:
+      POSTGRES_DB: compras
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234567
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./.data/postgresql/data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3.9.14-alpine
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=lista-rabbit
+      - RABBITMQ_DEFAULT_PASS=1234567
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+
+  app:
+    build: ../.
+    container_name: lista-app
+    depends_on:
+      - postgres
+      - rabbitmq
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORTA: 5672
+      RABBITMQ_USERNAME: lista-rabbit
+      RABBITMQ_PASSWORD: 1234567
+      POSTGRES_URL: jdbc:postgresql://postgres:5432/compras
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: 1234567
+    ports:
+      - "8080:8080"
+
+volumes:
+   rabbitmq-data:
