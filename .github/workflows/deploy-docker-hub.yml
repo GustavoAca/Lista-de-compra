@@ -2,11 +2,10 @@ name: Deploy
 
 on:
   push:
-    branches:
-      - "config"
+    branches: [ "master" ]
 
 jobs:
-  build:
+  criar-projeto:
     runs-on: ubuntu-latest
     steps:
       - name: Verificar repositório
@@ -24,10 +23,9 @@ jobs:
       - name: Construir com Maven
         run: mvn -B clean install
 
-  testar:
+  executar-testes:
     runs-on: ubuntu-latest
-
-    needs: build
+    needs: criar-projeto
 
     steps:
       - name: Verificar repositório
@@ -44,8 +42,7 @@ jobs:
 
   deploy-imagem-docker-hub:
     runs-on: ubuntu-latest
-
-    needs: testar
+    needs: executar-testes
 
     steps:
       - name: Verificar repositório
@@ -76,7 +73,7 @@ jobs:
           docker tag listadecompra:${{ env.PROJECT_VERSION }} gacacio/listadecompra:${{ env.PROJECT_VERSION }}
           docker push gacacio/listadecompra:${{ env.PROJECT_VERSION }}
 
-  increment-version:
+  incrementar-versao:
     runs-on: ubuntu-latest
     needs: deploy-imagem-docker-hub
 
