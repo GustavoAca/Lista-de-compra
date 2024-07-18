@@ -20,7 +20,7 @@ public class ItemController {
 
     @PutMapping
     public ResponseEntity<ItemDto> atualizar(@RequestBody @Valid ItemDto itemDto) {
-        return ResponseEntity.ok(itemService.salvar(itemDto));
+        return ResponseEntity.ok(itemService.atualizar(itemDto));
     }
 
     @GetMapping("/{nome}")

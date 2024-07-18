@@ -23,7 +23,7 @@ public class ItemServiceImpl extends ServiceAbstract<Item, Long, ItemRepository>
         this.itemMapper = itemMapper;
     }
 
-    public ItemDto salvar(ItemDto itemDto) {
+    public ItemDto atualizar(ItemDto itemDto) {
         return itemMapper.toDto(super.salvar(itemMapper.toEntity(itemDto)));
     }
 

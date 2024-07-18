@@ -22,10 +22,10 @@ public class CompraServiceImpl extends ServiceAbstract<Compra, Long, CompraRepos
     private final ItemService itemService;
     private final ItemProducer itemProducer;
 
-    protected CompraServiceImpl(CompraRepository repo,
-                                CompraMapper compraMapper,
-                                ItemService itemService,
-                                ItemProducer itemProducer) {
+    public CompraServiceImpl(CompraRepository repo,
+                             CompraMapper compraMapper,
+                             ItemService itemService,
+                             ItemProducer itemProducer) {
         super(repo);
         this.compraMapper = compraMapper;
         this.itemService = itemService;

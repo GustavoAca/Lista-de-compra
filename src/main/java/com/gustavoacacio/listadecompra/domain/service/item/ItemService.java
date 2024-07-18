@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface ItemService extends BaseService<Item, Long> {
 
-    ItemDto salvar(ItemDto itemDto);
+    ItemDto atualizar(ItemDto itemDto);
 
     Page<ItemDto> listarPorNome(String nome, Pageable pageable);
 }
