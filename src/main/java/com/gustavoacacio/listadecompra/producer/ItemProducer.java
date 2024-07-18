@@ -15,7 +15,7 @@ public class ItemProducer {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void fabricarHistorico(ItemDto itemDto){
+    public void fabricarHistorico(ItemDto itemDto) {
         rabbitTemplate.convertAndSend("", TOPICO_LISTA_CRIOU_HISTORICO, itemDto);
     }
 }

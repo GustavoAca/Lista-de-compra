@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackages = "com.gustavoacacio.listadecompra.domain.repository")
 public class ListaDeCompraApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ListaDeCompraApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ListaDeCompraApplication.class, args);
+    }
 }

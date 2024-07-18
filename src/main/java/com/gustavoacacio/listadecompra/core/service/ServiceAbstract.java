@@ -8,13 +8,14 @@ import org.springframework.data.domain.Pageable;
 import java.io.Serializable;
 import java.util.Optional;
 
-public class ServiceAbstract<E extends EntityAbstract, K extends Serializable, R extends BaseRepository<E, K>> implements  BaseService<E, K> {
+public class ServiceAbstract<E extends EntityAbstract, K extends Serializable, R extends BaseRepository<E, K>> implements BaseService<E, K> {
     protected R repo;
 
-    protected ServiceAbstract(R repo){
+    protected ServiceAbstract(R repo) {
         this.repo = repo;
     }
-    public E salvar(E entity){
+
+    public E salvar(E entity) {
         return this.repo.save(entity);
     }
 

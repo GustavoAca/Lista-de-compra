@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import java.io.Serializable;
 import java.util.Optional;
 
-public interface BaseService <T extends EntityAbstract, K extends Serializable> {
+public interface BaseService<T extends EntityAbstract, K extends Serializable> {
     T salvar(T entity);
 
     Page<T> listarPagina(Pageable pageable);
