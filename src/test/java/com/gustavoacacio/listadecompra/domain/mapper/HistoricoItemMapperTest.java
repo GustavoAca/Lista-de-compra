@@ -64,7 +64,7 @@ class HistoricoItemMapperTest extends ListaDeCompraApplicationTests {
         }
 
         @Nested
-        class Quando_transformar_em_dto extends ListaDeCompraApplicationTests {
+        class Quando_transformar_em_entidade extends ListaDeCompraApplicationTests {
             private HistoricoItem historicoItem;
 
             @BeforeEach
