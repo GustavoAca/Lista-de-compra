@@ -7,7 +7,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import static com.gustavoacacio.listadecompra.core.config.QueueRabbitMQConfig.TOPICO_LISTA_CRIOU_HISTORICO;
+import static com.gustavoacacio.listadecompra.core.config.rabbitmq.QueueRabbitMQConfig.TOPICO_LISTA_CRIOU_HISTORICO;
 
 @Component
 public class HistoricoItemConsumer {
