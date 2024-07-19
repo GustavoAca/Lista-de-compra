@@ -1,7 +1,7 @@
 spring:
   jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
-    time-zone: Brazil/East
+    date-format: yyyy-MM-dd'T'HH:mm:ss
+    time-zone: UTC
   jpa:
     properties:
       hibernate:
@@ -10,7 +10,7 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
-    show-sql: false
+    show-sql: true
     generate-ddl: true
     flyway:
       enable: true
@@ -20,6 +20,12 @@ spring:
     username: lista-rabbit
     password: 1234567
 
+jwt:
+  public:
+    key: classpath:app.pub
+
+  private:
+    key: classpath:app.key
 server:
   port: 8080
 

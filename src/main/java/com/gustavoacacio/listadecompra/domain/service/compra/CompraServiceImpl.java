@@ -1,9 +1,9 @@
 package com.gustavoacacio.listadecompra.domain.service.compra;
 
-import com.gustavoacacio.listadecompra.controller.dto.CompraDto;
 import com.gustavoacacio.listadecompra.core.service.ServiceAbstract;
 import com.gustavoacacio.listadecompra.domain.mapper.CompraMapper;
 import com.gustavoacacio.listadecompra.domain.model.Compra;
+import com.gustavoacacio.listadecompra.domain.model.dto.CompraDto;
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
 import com.gustavoacacio.listadecompra.domain.repository.CompraRepository;
 import com.gustavoacacio.listadecompra.domain.service.item.ItemService;
@@ -33,30 +33,27 @@ public class CompraServiceImpl extends ServiceAbstract<Compra, Long, CompraRepos
     }
 
     public CompraDto salvar(CompraDto compraDto) {
-        Compra compra = fabricarCompra(compraDto);
-        List<ItemDto> items = adicionarItens(compraDto, compra.getId());
-        var compraSalva = compraMapper.toDto(super.salvar(compraMapper
-                .toEntity(CompraDto.builder()
-                        .itemDtos(items)
-                        .id(compra.getId())
-                        .build())));
-        compraSalva.itemDtos().forEach(itemProducer::fabricarHistorico);
+        CompraDto compraDtoNova = fabricarCompra(compraDto);
+        List<ItemDto> items = adicionarItens(compraDto, compraDtoNova.getId());
+        compraDtoNova.setItems(items);
+        var compraSalva = compraMapper.toDto(super.salvar(compraMapper.toEntity(compraDtoNova)));
+        compraSalva.getItems().forEach(itemProducer::fabricarHistorico);
         return compraSalva;
     }
 
-    public Compra fabricarCompra(CompraDto compraDto) {
+    public CompraDto fabricarCompra(CompraDto compraDto) {
         Compra compra = Compra.builder().build();
-        if (Objects.nonNull(compraDto.id())) {
-            compra = repo.findById(compraDto.id()).orElseThrow(() -> new RegistroNaoEncontradoException(compraDto.id(), CompraDto.class.getName()));
+        if (Objects.nonNull(compraDto.getId())) {
+            compra = repo.findById(compraDto.getId()).orElseThrow(() -> new RegistroNaoEncontradoException(compraDto.getId(), CompraDto.class.getName()));
         } else {
             compra = repo.save(compra);
         }
-        return compra;
+        return compraMapper.toDto(compra);
     }
 
     public List<ItemDto> adicionarItens(CompraDto compraDto, Long compraId) {
         List<ItemDto> items = new LinkedList<>();
-        for (ItemDto itemDto : compraDto.itemDtos()) {
+        for (ItemDto itemDto : compraDto.getItems()) {
             if (Objects.nonNull(itemDto.getId())) {
                 var item = itemService.buscarPorId(itemDto.getId());
                 if (item.isPresent()) {

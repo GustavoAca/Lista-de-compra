@@ -1,4 +1,4 @@
-package com.gustavoacacio.listadecompra.core.config;
+package com.gustavoacacio.listadecompra.core.config.rabbitmq;
 
 import org.springframework.stereotype.Component;
 

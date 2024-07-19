@@ -1,19 +1,21 @@
-package com.gustavoacacio.listadecompra.core.config;
+package com.gustavoacacio.listadecompra.core.config.rabbitmq;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.gustavoacacio.listadecompra.core.config.QueueRabbitMQConfig.TOPICOS_A_SEREM_CRIADOS;
+import static com.gustavoacacio.listadecompra.core.config.rabbitmq.QueueRabbitMQConfig.TOPICOS_A_SEREM_CRIADOS;
 
 @Configuration
 public class RabbitMQConfig {
+
+    private final ObjectMapper objectMapper;
+
+    public RabbitMQConfig(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     @Bean
     public String queues() {
@@ -30,7 +32,6 @@ public class RabbitMQConfig {
 
     @Bean
     public Jackson2JsonMessageConverter messageConverter() {
-        ObjectMapper objectMapper = new ObjectMapper();
         return new Jackson2JsonMessageConverter(objectMapper);
     }
 }
