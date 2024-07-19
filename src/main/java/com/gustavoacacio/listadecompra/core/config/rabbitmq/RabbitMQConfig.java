@@ -11,6 +11,12 @@ import static com.gustavoacacio.listadecompra.core.config.rabbitmq.QueueRabbitMQ
 @Configuration
 public class RabbitMQConfig {
 
+    private final ObjectMapper objectMapper;
+
+    public RabbitMQConfig(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
     @Bean
     public String queues() {
         for (String queueName : TOPICOS_A_SEREM_CRIADOS) {
@@ -26,7 +32,6 @@ public class RabbitMQConfig {
 
     @Bean
     public Jackson2JsonMessageConverter messageConverter() {
-        ObjectMapper objectMapper = new ObjectMapper();
         return new Jackson2JsonMessageConverter(objectMapper);
     }
 }

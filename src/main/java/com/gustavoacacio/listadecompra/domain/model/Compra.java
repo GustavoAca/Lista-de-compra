@@ -23,5 +23,5 @@ public class Compra extends EntityAbstract {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "compra", orphanRemoval = true)
     @Builder.Default
-    List<Item> items = new LinkedList<>();
+    private List<Item> items = new LinkedList<>();
 }

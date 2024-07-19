@@ -1,9 +1,9 @@
 package com.gustavoacacio.listadecompra.domain.service.item;
 
 import com.gustavoacacio.listadecompra.ListaDeCompraApplicationTests;
-import com.gustavoacacio.listadecompra.controller.dto.CompraDto;
 import com.gustavoacacio.listadecompra.domain.mapper.CompraMapper;
 import com.gustavoacacio.listadecompra.domain.model.Item;
+import com.gustavoacacio.listadecompra.domain.model.dto.CompraDto;
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
 import com.gustavoacacio.listadecompra.domain.repository.CompraRepository;
 import com.gustavoacacio.listadecompra.domain.service.compra.CompraService;
@@ -54,7 +54,7 @@ class ItemServiceImplTest extends ListaDeCompraApplicationTests {
         @BeforeEach
         void setup() {
             compraDto = CompraDto.builder()
-                    .itemDtos(List.of(ItemDto.builder()
+                    .items(List.of(ItemDto.builder()
                             .nome(nome)
                             .valor(BigDecimal.ONE)
                             .quantidade(1L)
@@ -98,8 +98,8 @@ class ItemServiceImplTest extends ListaDeCompraApplicationTests {
 
             @BeforeEach
             void setup() {
-                item = itemService.buscarPorId(compraDto.itemDtos().get(0).getId())
-                        .orElseThrow(() -> new RegistroNaoEncontradoException(compraDto.itemDtos().get(0).getId(), Item.class.getName()));
+                item = itemService.buscarPorId(compraDto.getItems().get(0).getId())
+                        .orElseThrow(() -> new RegistroNaoEncontradoException(compraDto.getItems().get(0).getId(), Item.class.getName()));
             }
 
             @Test

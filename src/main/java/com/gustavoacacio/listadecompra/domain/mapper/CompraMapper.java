@@ -1,8 +1,8 @@
 package com.gustavoacacio.listadecompra.domain.mapper;
 
-import com.gustavoacacio.listadecompra.controller.dto.CompraDto;
 import com.gustavoacacio.listadecompra.domain.model.Compra;
 import com.gustavoacacio.listadecompra.domain.model.Item;
+import com.gustavoacacio.listadecompra.domain.model.dto.CompraDto;
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
 import org.springframework.stereotype.Component;
 
@@ -19,12 +19,12 @@ public class CompraMapper {
     }
 
     public Compra toEntity(CompraDto compraDto) {
-        return Compra.builder().id(compraDto.id())
-                .items(toListItemsEntity(compraDto.itemDtos()))
-                .createdBy(compraDto.createdBy())
-                .createdDate(compraDto.createdDate())
-                .modifiedBy(compraDto.modifiedBy())
-                .modifiedDate(compraDto.modifiedDate())
+        return Compra.builder().id(compraDto.getId())
+                .items(toListItemsEntity(compraDto.getItems()))
+                .createdBy(compraDto.getCreatedBy())
+                .createdDate(compraDto.getCreatedDate())
+                .modifiedBy(compraDto.getModifiedBy())
+                .modifiedDate(compraDto.getModifiedDate())
                 .build();
     }
 
@@ -35,7 +35,7 @@ public class CompraMapper {
 
     public CompraDto toDto(Compra compra) {
         return CompraDto.builder().id(compra.getId())
-                .itemDtos(toListItemsDto(compra.getItems()))
+                .items(toListItemsDto(compra.getItems()))
                 .createdBy(compra.getCreatedBy())
                 .createdDate(compra.getCreatedDate())
                 .modifiedBy(compra.getModifiedBy())

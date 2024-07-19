@@ -3,7 +3,7 @@ package com.gustavoacacio.listadecompra.domain.model.dto;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -16,8 +16,8 @@ public class HistoricoItemDto {
     private Long compraId;
     private Long itemId;
     private BigDecimal valorItem;
-    private OffsetDateTime modifiedDate;
+    private LocalDateTime modifiedDate;
     private String modifiedBy;
-    private OffsetDateTime createdDate;
+    private LocalDateTime createdDate;
     private String createdBy;
 }

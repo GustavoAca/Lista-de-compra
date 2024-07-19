@@ -1,6 +1,6 @@
 package com.gustavoacacio.listadecompra.controller;
 
-import com.gustavoacacio.listadecompra.controller.dto.CompraDto;
+import com.gustavoacacio.listadecompra.domain.model.dto.CompraDto;
 import com.gustavoacacio.listadecompra.domain.service.compra.CompraService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

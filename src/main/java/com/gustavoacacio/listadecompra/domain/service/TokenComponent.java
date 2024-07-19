@@ -36,10 +36,10 @@ public class TokenComponent {
         }
 
         var now = Instant.now();
-        var expiresIn = 300L;
+        var expiresIn = 3000L;
         var claims = JwtClaimsSet.builder()
                 .issuer("listadecompra")
-                .subject(User.builder().id(user.get().getId()).roles(user.get().getRoles()).build().toString())
+                .subject(User.builder().id(user.get().getId()).username(user.get().getUsername()).roles(user.get().getRoles()).build().toString())
                 .expiresAt(now.plusSeconds(expiresIn))
                 .issuedAt(now)
                 .build();

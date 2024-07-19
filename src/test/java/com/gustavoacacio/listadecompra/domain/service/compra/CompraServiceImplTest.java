@@ -1,8 +1,8 @@
 package com.gustavoacacio.listadecompra.domain.service.compra;
 
 import com.gustavoacacio.listadecompra.ListaDeCompraApplicationTests;
-import com.gustavoacacio.listadecompra.controller.dto.CompraDto;
 import com.gustavoacacio.listadecompra.domain.mapper.CompraMapper;
+import com.gustavoacacio.listadecompra.domain.model.dto.CompraDto;
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
 import com.gustavoacacio.listadecompra.domain.repository.CompraRepository;
 import com.gustavoacacio.listadecompra.domain.service.item.ItemService;
@@ -58,7 +58,7 @@ class CompraServiceImplTest extends ListaDeCompraApplicationTests {
                     .build();
 
             compraDto = CompraDto.builder()
-                    .itemDtos(List.of(item1, item2))
+                    .items(List.of(item1, item2))
                     .build();
         }
 
@@ -74,7 +74,7 @@ class CompraServiceImplTest extends ListaDeCompraApplicationTests {
             @Test
             void Entao_deve_ter_sucesso() {
                 assertNotNull(compraSalva);
-                assertEquals(2L, compraSalva.itemDtos().size());
+                assertEquals(2L, compraSalva.getItems().size());
             }
         }
     }

@@ -1,26 +1,33 @@
 package com.gustavoacacio.listadecompra.core.model;
 
 import jakarta.persistence.Column;
-import lombok.*;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EntityCreatedAbstract {
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+public abstract class EntityCreatedAbstract {
 
     @Column(name = "created_date", nullable = false, updatable = false)
     @CreatedDate
-    private OffsetDateTime createdDate;
+    private LocalDateTime createdDate;
 
     @Column(name = "created_by", nullable = false, updatable = false)
     @CreatedBy
     private String createdBy;
-
 }

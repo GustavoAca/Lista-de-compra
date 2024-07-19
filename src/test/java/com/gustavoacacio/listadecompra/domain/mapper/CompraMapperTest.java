@@ -1,9 +1,9 @@
 package com.gustavoacacio.listadecompra.domain.mapper;
 
 import com.gustavoacacio.listadecompra.ListaDeCompraApplicationTests;
-import com.gustavoacacio.listadecompra.controller.dto.CompraDto;
 import com.gustavoacacio.listadecompra.domain.model.Compra;
 import com.gustavoacacio.listadecompra.domain.model.Item;
+import com.gustavoacacio.listadecompra.domain.model.dto.CompraDto;
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -45,8 +45,8 @@ class CompraMapperTest extends ListaDeCompraApplicationTests {
 
             @Test
             void Entao_deve_ter_sucesso() {
-                assertEquals(1L, compraDto.id());
-                assertEquals(1L, compraDto.itemDtos().size());
+                assertEquals(1L, compraDto.getId());
+                assertEquals(1L, compraDto.getItems().size());
             }
         }
     }
@@ -60,7 +60,7 @@ class CompraMapperTest extends ListaDeCompraApplicationTests {
         void setup() {
             compraDto = CompraDto.builder()
                     .id(1L)
-                    .itemDtos(List.of(ItemDto.builder()
+                    .items(List.of(ItemDto.builder()
                             .compraId(1L)
                             .id(1L)
                             .build()))
