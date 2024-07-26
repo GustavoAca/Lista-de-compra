@@ -8,6 +8,7 @@ public class CredencialException extends ListaExcepion {
     public ProblemDetail toProblemDetail() {
         var pb = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
         pb.setTitle("Usuário ou senha inválidos");
+        pb.setDetail("Usuário ou senha inválidos");
         return pb;
     }
 }

@@ -13,7 +13,8 @@ public class UsuarioJaCadastradoException extends ListaExcepion {
 
     public ProblemDetail toProblemDetail() {
         var pb = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
-        pb.setTitle(String.format("Usuário %s já está cadastrado", this.username));
+        pb.setTitle("Usuário já está cadastrado");
+        pb.setDetail(String.format("Usuário %s já está cadastrado", this.username));
         return pb;
     }
 }

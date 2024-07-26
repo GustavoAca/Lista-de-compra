@@ -2,6 +2,7 @@ package com.gustavoacacio.listadecompra.domain.service;
 
 import com.gustavoacacio.listadecompra.controller.dto.LoginRequest;
 import com.gustavoacacio.listadecompra.controller.dto.LoginResponse;
+import com.gustavoacacio.listadecompra.domain.model.Role;
 import com.gustavoacacio.listadecompra.domain.model.User;
 import com.gustavoacacio.listadecompra.domain.service.user.UserService;
 import com.gustavoacacio.listadecompra.exception.CredencialException;
@@ -12,6 +13,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.util.stream.Collectors;
 
 @Component
 public class TokenComponent {
@@ -36,12 +38,16 @@ public class TokenComponent {
         }
 
         var now = Instant.now();
-        var expiresIn = 3000L;
+        var expiresIn = 150L;
+        var scope = user.get().getRoles().stream()
+                .map(Role::getName)
+                .collect(Collectors.joining(" "));
         var claims = JwtClaimsSet.builder()
                 .issuer("listadecompra")
-                .subject(User.builder().id(user.get().getId()).username(user.get().getUsername()).roles(user.get().getRoles()).build().toString())
+                .subject(User.builder().id(user.get().getId()).username(user.get().getUsername()).build().toString())
                 .expiresAt(now.plusSeconds(expiresIn))
                 .issuedAt(now)
+                .claim("scope", scope)
                 .build();
 
         var jwtValue = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
