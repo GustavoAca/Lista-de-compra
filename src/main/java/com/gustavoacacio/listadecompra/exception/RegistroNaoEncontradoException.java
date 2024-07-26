@@ -15,7 +15,8 @@ public class RegistroNaoEncontradoException extends ListaExcepion {
     @Override
     public ProblemDetail toProblemDetail() {
         var pb = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
-        pb.setTitle(String.format("%s não encontrado com o id: %d", registro, id));
+        pb.setTitle("Registro não encontrado.");
+        pb.setDetail(String.format("%s não encontrado com o id: %d.", registro, id));
         return pb;
     }
 }
