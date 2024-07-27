@@ -75,8 +75,8 @@ class CompraServiceImplTest extends ListaDeCompraApplicationTests {
             void Entao_deve_ter_sucesso() {
                 assertNotNull(compraSalva);
                 assertEquals(2L, compraSalva.getItems().size());
+                assertEquals(new BigDecimal("20.0"), compraSalva.getValorTotal());
             }
         }
     }
-
 }

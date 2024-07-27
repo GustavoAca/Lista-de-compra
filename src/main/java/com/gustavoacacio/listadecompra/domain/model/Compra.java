@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,4 +25,7 @@ public class Compra extends EntityAbstract {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "compra", orphanRemoval = true)
     @Builder.Default
     private List<Item> items = new LinkedList<>();
+
+    @Column(name = "valor_total")
+    private BigDecimal valorTotal;
 }

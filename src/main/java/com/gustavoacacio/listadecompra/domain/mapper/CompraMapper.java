@@ -21,6 +21,7 @@ public class CompraMapper {
     public Compra toEntity(CompraDto compraDto) {
         return Compra.builder().id(compraDto.getId())
                 .items(toListItemsEntity(compraDto.getItems()))
+                .valorTotal(compraDto.getValorTotal())
                 .createdBy(compraDto.getCreatedBy())
                 .createdDate(compraDto.getCreatedDate())
                 .modifiedBy(compraDto.getModifiedBy())
@@ -36,6 +37,7 @@ public class CompraMapper {
     public CompraDto toDto(Compra compra) {
         return CompraDto.builder().id(compra.getId())
                 .items(toListItemsDto(compra.getItems()))
+                .valorTotal(compra.getValorTotal())
                 .createdBy(compra.getCreatedBy())
                 .createdDate(compra.getCreatedDate())
                 .modifiedBy(compra.getModifiedBy())

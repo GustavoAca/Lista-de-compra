@@ -38,7 +38,7 @@ public class TokenComponent {
         }
 
         var now = Instant.now();
-        var expiresIn = 150L;
+        var expiresIn = 3050L;
         var scope = user.get().getRoles().stream()
                 .map(Role::getName)
                 .collect(Collectors.joining(" "));

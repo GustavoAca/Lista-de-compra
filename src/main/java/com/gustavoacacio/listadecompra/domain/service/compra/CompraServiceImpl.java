@@ -1,5 +1,6 @@
 package com.gustavoacacio.listadecompra.domain.service.compra;
 
+
 import com.gustavoacacio.listadecompra.core.service.ServiceAbstract;
 import com.gustavoacacio.listadecompra.domain.mapper.CompraMapper;
 import com.gustavoacacio.listadecompra.domain.model.Compra;
@@ -9,8 +10,12 @@ import com.gustavoacacio.listadecompra.domain.repository.CompraRepository;
 import com.gustavoacacio.listadecompra.domain.service.item.ItemService;
 import com.gustavoacacio.listadecompra.exception.RegistroNaoEncontradoException;
 import com.gustavoacacio.listadecompra.producer.ItemProducer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -34,9 +39,7 @@ public class CompraServiceImpl extends ServiceAbstract<Compra, Long, CompraRepos
 
     public CompraDto salvar(CompraDto compraDto) {
         CompraDto compraDtoNova = fabricarCompra(compraDto);
-        List<ItemDto> items = adicionarItens(compraDto, compraDtoNova.getId());
-        compraDtoNova.setItems(items);
-        var compraSalva = compraMapper.toDto(super.salvar(compraMapper.toEntity(compraDtoNova)));
+        var compraSalva = compraMapper.toDto(super.salvar(compraMapper.toEntity(adicionarItens(compraDto, compraDtoNova))));
         compraSalva.getItems().forEach(itemProducer::fabricarHistorico);
         return compraSalva;
     }
@@ -51,24 +54,37 @@ public class CompraServiceImpl extends ServiceAbstract<Compra, Long, CompraRepos
         return compraMapper.toDto(compra);
     }
 
-    public List<ItemDto> adicionarItens(CompraDto compraDto, Long compraId) {
+    private CompraDto adicionarItens(CompraDto compraDto, CompraDto compraDtoNova) {
         List<ItemDto> items = new LinkedList<>();
+        BigDecimal valorTotal = BigDecimal.ZERO;
         for (ItemDto itemDto : compraDto.getItems()) {
             if (Objects.nonNull(itemDto.getId())) {
                 var item = itemService.buscarPorId(itemDto.getId());
                 if (item.isPresent()) {
                     itemDto.setId(item.get().getId());
-                    itemDto.setCompraId(compraId);
+                    itemDto.setCompraId(compraDtoNova.getId());
                     items.add(itemDto);
                 } else {
-                    itemDto.setCompraId(compraId);
+                    itemDto.setCompraId(compraDtoNova.getId());
                     items.add(itemDto);
                 }
             } else {
-                itemDto.setCompraId(compraId);
+                itemDto.setCompraId(compraDtoNova.getId());
                 items.add(itemDto);
             }
+            valorTotal = valorTotal.add(itemDto.getValor());
         }
-        return items;
+        compraDtoNova.setItems(items);
+        compraDtoNova.setValorTotal(valorTotal);
+        return compraDtoNova;
+    }
+
+    @Override
+    public Page<CompraDto> listar(Pageable pageable) {
+        Page<Compra> compraPage = super.listarPagina(pageable);
+        List<CompraDto> comprasDtosList = compraPage.getContent()
+                .stream().map(compraMapper::toDto)
+                .toList();
+        return new PageImpl<>(comprasDtosList, pageable, compraPage.getTotalElements());
     }
 }
