@@ -2,10 +2,14 @@ package com.gustavoacacio.listadecompra.domain.model.historico;
 
 import com.gustavoacacio.listadecompra.core.model.EntityAbstract;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -13,7 +17,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "historico_item")
+@Table(name = "historico_itens")
 public class HistoricoItem extends EntityAbstract implements TipoTipoHistorico {
 
     @Id
@@ -28,4 +32,7 @@ public class HistoricoItem extends EntityAbstract implements TipoTipoHistorico {
 
     @Column(name = "valor")
     private BigDecimal valorItem;
+
+    @Column(name = "local_id")
+    private UUID localId;
 }

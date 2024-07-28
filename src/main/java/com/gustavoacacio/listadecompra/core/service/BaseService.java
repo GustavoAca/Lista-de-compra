@@ -13,4 +13,6 @@ public interface BaseService<T extends EntityAbstract, K extends Serializable> {
     Page<T> listarPagina(Pageable pageable);
 
     Optional<T> buscarPorId(K id);
+
+    Boolean deletar(K id);
 }

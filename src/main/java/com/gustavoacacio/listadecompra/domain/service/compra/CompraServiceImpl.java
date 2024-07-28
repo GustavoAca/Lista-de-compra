@@ -72,7 +72,7 @@ public class CompraServiceImpl extends ServiceAbstract<Compra, Long, CompraRepos
                 itemDto.setCompraId(compraDtoNova.getId());
                 items.add(itemDto);
             }
-            valorTotal = valorTotal.add(itemDto.getValor());
+            valorTotal = valorTotal.add(itemDto.getValor().multiply(BigDecimal.valueOf(itemDto.getQuantidade())));
         }
         compraDtoNova.setItems(items);
         compraDtoNova.setValorTotal(valorTotal);

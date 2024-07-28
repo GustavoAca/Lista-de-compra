@@ -12,4 +12,6 @@ public interface UserService extends BaseService<User, UUID> {
     Optional<User> findByUsername(String username);
 
     void cadastrarUsuario(CreateUserDto createUserDto);
+
+    Boolean deletar(UUID userId);
 }

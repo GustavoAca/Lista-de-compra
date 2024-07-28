@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -15,6 +16,7 @@ public class HistoricoItemDto {
     private Long id;
     private Long compraId;
     private Long itemId;
+    private UUID localId;
     private BigDecimal valorItem;
     private LocalDateTime modifiedDate;
     private String modifiedBy;

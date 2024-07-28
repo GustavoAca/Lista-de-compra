@@ -13,11 +13,13 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "item")
+@Table(name = "itens")
+@EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 public class Item extends EntityAbstract {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     private String nome;
@@ -29,4 +31,11 @@ public class Item extends EntityAbstract {
     @ManyToOne
     @JoinColumn(name = "compra_id")
     private Compra compra;
+
+    @ManyToOne
+    @JoinColumn(name = "local_id")
+    private Local local;
+
+    @Builder.Default
+    private Boolean promocao = Boolean.FALSE;
 }

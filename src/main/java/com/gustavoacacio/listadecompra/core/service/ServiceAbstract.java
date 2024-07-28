@@ -28,4 +28,10 @@ public class ServiceAbstract<E extends EntityAbstract, K extends Serializable, R
     public Optional<E> buscarPorId(K id) {
         return repo.findById(id);
     }
+
+    @Override
+    public Boolean deletar(K id) {
+        repo.deleteById(id);
+        return repo.existsById(id);
+    }
 }

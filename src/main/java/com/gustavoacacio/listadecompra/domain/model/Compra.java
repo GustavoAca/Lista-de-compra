@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @SuperBuilder
-@Table(name = "compra")
+@Table(name = "compras")
 public class Compra extends EntityAbstract {
 
     @Id
@@ -27,5 +27,6 @@ public class Compra extends EntityAbstract {
     private List<Item> items = new LinkedList<>();
 
     @Column(name = "valor_total")
-    private BigDecimal valorTotal;
+    @Builder.Default
+    private BigDecimal valorTotal = BigDecimal.ZERO;
 }

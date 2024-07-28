@@ -10,7 +10,7 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
-    show-sql: true
+    show-sql: false
     generate-ddl: true
     flyway:
       enable: true
@@ -19,6 +19,18 @@ spring:
     port: 5672
     username: lista-rabbit
     password: 1234567
+logging:
+  level:
+    root: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+  file:
+    name: application.log
+  logback:
+    rollingpolicy:
+      fileNamePattern: application-%d{yyyy-MM-dd}.%i.log
+      maxFileSize: 10MB
+      maxHistory: 7
 
 jwt:
   public:

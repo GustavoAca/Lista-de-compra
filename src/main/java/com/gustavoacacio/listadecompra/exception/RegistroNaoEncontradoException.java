@@ -3,11 +3,13 @@ package com.gustavoacacio.listadecompra.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 
+import java.io.Serializable;
+
 public class RegistroNaoEncontradoException extends ListaExcepion {
-    private final Long id;
+    private final Serializable id;
     private final String registro;
 
-    public RegistroNaoEncontradoException(Long id, String registro) {
+    public RegistroNaoEncontradoException(Serializable id, String registro) {
         this.id = id;
         this.registro = registro;
     }

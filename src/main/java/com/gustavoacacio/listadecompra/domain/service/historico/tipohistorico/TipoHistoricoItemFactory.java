@@ -13,6 +13,7 @@ public class TipoHistoricoItemFactory implements TipoHistoricoService<ItemDto, H
                 .compraId(dto.getCompraId())
                 .itemId(dto.getId())
                 .valorItem(dto.getValor())
+                .localId(dto.getLocalId())
                 .build();
     }
 }

@@ -1,9 +1,10 @@
 package com.gustavoacacio.listadecompra.domain.model.historico;
 
-import com.gustavoacacio.listadecompra.core.model.EntityAbstract;
 import com.gustavoacacio.listadecompra.core.providers.ApplicationContextProvider;
 import com.gustavoacacio.listadecompra.domain.service.historico.tipohistorico.TipoHistoricoItemFactory;
 import com.gustavoacacio.listadecompra.domain.service.historico.tipohistorico.TipoHistoricoService;
+
+import java.io.Serializable;
 
 public enum TipoHistorico {
 
@@ -15,7 +16,7 @@ public enum TipoHistorico {
         this.fabricador = fabricador;
     }
 
-    public <T extends TipoTipoHistorico> T getFactory(EntityAbstract entity) {
+    public <T extends TipoTipoHistorico> T getFactory(Serializable entity) {
         return (T) ApplicationContextProvider.getBean(this.fabricador).fabricar(entity);
     }
 }

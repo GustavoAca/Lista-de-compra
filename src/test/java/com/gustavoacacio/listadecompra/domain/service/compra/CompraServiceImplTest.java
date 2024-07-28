@@ -2,10 +2,12 @@ package com.gustavoacacio.listadecompra.domain.service.compra;
 
 import com.gustavoacacio.listadecompra.ListaDeCompraApplicationTests;
 import com.gustavoacacio.listadecompra.domain.mapper.CompraMapper;
+import com.gustavoacacio.listadecompra.domain.model.Local;
 import com.gustavoacacio.listadecompra.domain.model.dto.CompraDto;
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
 import com.gustavoacacio.listadecompra.domain.repository.CompraRepository;
 import com.gustavoacacio.listadecompra.domain.service.item.ItemService;
+import com.gustavoacacio.listadecompra.domain.service.local.LocalService;
 import com.gustavoacacio.listadecompra.producer.ItemProducer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -35,6 +37,9 @@ class CompraServiceImplTest extends ListaDeCompraApplicationTests {
     @Autowired
     private CompraRepository repository;
 
+    @Autowired
+    private LocalService localService;
+
     @BeforeEach
     void setup() {
         compraService = new CompraServiceImpl(repository, compraMapper, itemService, itemProducer);
@@ -46,14 +51,20 @@ class CompraServiceImplTest extends ListaDeCompraApplicationTests {
 
         @BeforeEach
         void setup() {
+            var local = Local.builder()
+                    .nome("Local")
+                    .build();
+            localService.salvar(local);
 
             ItemDto item1 = ItemDto.builder()
                     .valor(BigDecimal.valueOf(10.00))
                     .quantidade(1L)
+                    .localId(local.getId())
                     .nome("Arroz").build();
             ItemDto item2 = ItemDto.builder()
                     .valor(BigDecimal.valueOf(10.00))
                     .quantidade(1L)
+                    .localId(local.getId())
                     .nome("Feijão")
                     .build();
 
