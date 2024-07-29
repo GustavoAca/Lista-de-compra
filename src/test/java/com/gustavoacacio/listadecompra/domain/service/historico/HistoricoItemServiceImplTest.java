@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.util.Random;
+import java.util.UUID;
 
 class HistoricoItemServiceImplTest extends ListaDeCompraApplicationTests {
 
@@ -33,6 +34,7 @@ class HistoricoItemServiceImplTest extends ListaDeCompraApplicationTests {
             historicoItem = HistoricoItem.builder()
                     .itemId(criarLong())
                     .compraId(criarLong())
+                    .localId(UUID.randomUUID())
                     .valorItem(BigDecimal.ONE)
                     .build();
 

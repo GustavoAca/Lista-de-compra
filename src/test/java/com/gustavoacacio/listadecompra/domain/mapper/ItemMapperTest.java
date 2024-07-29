@@ -3,7 +3,9 @@ package com.gustavoacacio.listadecompra.domain.mapper;
 import com.gustavoacacio.listadecompra.ListaDeCompraApplicationTests;
 import com.gustavoacacio.listadecompra.domain.model.Compra;
 import com.gustavoacacio.listadecompra.domain.model.Item;
+import com.gustavoacacio.listadecompra.domain.model.Local;
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
+import com.gustavoacacio.listadecompra.domain.service.local.LocalService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -18,16 +20,24 @@ class ItemMapperTest extends ListaDeCompraApplicationTests {
     @Autowired
     private ItemMapper itemMapper;
 
+    @Autowired
+    private LocalService localService;
+
     @Nested
     class Dado_uma_entidade extends ListaDeCompraApplicationTests {
         private Item item;
 
         @BeforeEach
         void setup() {
+            var local = Local.builder()
+                    .nome("Local")
+                    .build();
+            localService.salvar(local);
             item = Item.builder()
                     .id(1L)
                     .nome("Arroz")
                     .valor(BigDecimal.ONE)
+                    .local(local)
                     .compra(Compra.builder()
                             .id(1L)
                             .build())
@@ -61,10 +71,15 @@ class ItemMapperTest extends ListaDeCompraApplicationTests {
 
         @BeforeEach
         void setup() {
+            var local = Local.builder()
+                    .nome("Local")
+                    .build();
+            localService.salvar(local);
             dto = ItemDto.builder()
                     .id(1L)
                     .nome("Arroz")
                     .valor(BigDecimal.ONE)
+                    .localId(local.getId())
                     .compraId(1L)
                     .quantidade(1L)
                     .build();

@@ -3,8 +3,10 @@ package com.gustavoacacio.listadecompra.domain.mapper;
 import com.gustavoacacio.listadecompra.ListaDeCompraApplicationTests;
 import com.gustavoacacio.listadecompra.domain.model.Compra;
 import com.gustavoacacio.listadecompra.domain.model.Item;
+import com.gustavoacacio.listadecompra.domain.model.Local;
 import com.gustavoacacio.listadecompra.domain.model.dto.CompraDto;
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
+import com.gustavoacacio.listadecompra.domain.service.local.LocalService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -18,6 +20,9 @@ class CompraMapperTest extends ListaDeCompraApplicationTests {
     @Autowired
     private CompraMapper compraMapper;
 
+    @Autowired
+    private LocalService localService;
+
     @Nested
     class Dado_uma_entidade extends ListaDeCompraApplicationTests {
 
@@ -25,11 +30,17 @@ class CompraMapperTest extends ListaDeCompraApplicationTests {
 
         @BeforeEach
         void setup() {
+            var local = Local.builder()
+                    .nome("Local")
+                    .build();
+            local = localService.salvar(local);
+
             compra = Compra.builder()
                     .id(1L)
                     .items(List.of(Item.builder()
                             .compra(Compra.builder().id(1L).build())
                             .id(1L)
+                            .local(local)
                             .build()))
                     .build();
         }
@@ -58,11 +69,16 @@ class CompraMapperTest extends ListaDeCompraApplicationTests {
 
         @BeforeEach
         void setup() {
+            var local = Local.builder()
+                    .nome("Local")
+                    .build();
+            local = localService.salvar(local);
             compraDto = CompraDto.builder()
                     .id(1L)
                     .items(List.of(ItemDto.builder()
                             .compraId(1L)
                             .id(1L)
+                            .localId(local.getId())
                             .build()))
                     .build();
         }

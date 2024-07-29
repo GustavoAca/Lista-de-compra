@@ -3,11 +3,13 @@ package com.gustavoacacio.listadecompra.domain.service.item;
 import com.gustavoacacio.listadecompra.ListaDeCompraApplicationTests;
 import com.gustavoacacio.listadecompra.domain.mapper.CompraMapper;
 import com.gustavoacacio.listadecompra.domain.model.Item;
+import com.gustavoacacio.listadecompra.domain.model.Local;
 import com.gustavoacacio.listadecompra.domain.model.dto.CompraDto;
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
 import com.gustavoacacio.listadecompra.domain.repository.CompraRepository;
 import com.gustavoacacio.listadecompra.domain.service.compra.CompraService;
 import com.gustavoacacio.listadecompra.domain.service.compra.CompraServiceImpl;
+import com.gustavoacacio.listadecompra.domain.service.local.LocalService;
 import com.gustavoacacio.listadecompra.exception.RegistroNaoEncontradoException;
 import com.gustavoacacio.listadecompra.producer.ItemProducer;
 import org.junit.jupiter.api.Assertions;
@@ -32,12 +34,14 @@ class ItemServiceImplTest extends ListaDeCompraApplicationTests {
     @Mock
     private ItemProducer itemProducer;
 
-
     @Autowired
     private CompraMapper compraMapper;
 
     @Autowired
     private CompraRepository repository;
+
+    @Autowired
+    private LocalService localService;
 
     @BeforeEach
     void setup() {
@@ -53,11 +57,16 @@ class ItemServiceImplTest extends ListaDeCompraApplicationTests {
 
         @BeforeEach
         void setup() {
+            var local = Local.builder()
+                    .nome("Local")
+                    .build();
+            local = localService.salvar(local);
             compraDto = CompraDto.builder()
                     .items(List.of(ItemDto.builder()
                             .nome(nome)
                             .valor(BigDecimal.ONE)
                             .quantidade(1L)
+                            .localId(local.getId())
                             .build()))
                     .build();
             compraDto = compraService.salvar(compraDto);
