@@ -5,7 +5,7 @@ import com.gustavoacacio.listadecompra.domain.mapper.CompraMapper;
 import com.gustavoacacio.listadecompra.domain.model.Local;
 import com.gustavoacacio.listadecompra.domain.model.dto.CompraDto;
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
-import com.gustavoacacio.listadecompra.domain.repository.CompraRepository;
+import com.gustavoacacio.listadecompra.domain.repository.jpa.CompraRepository;
 import com.gustavoacacio.listadecompra.domain.service.item.ItemService;
 import com.gustavoacacio.listadecompra.domain.service.local.LocalService;
 import com.gustavoacacio.listadecompra.producer.ItemProducer;

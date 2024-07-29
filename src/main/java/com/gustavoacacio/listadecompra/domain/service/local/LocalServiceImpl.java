@@ -1,10 +1,10 @@
 package com.gustavoacacio.listadecompra.domain.service.local;
 
-import com.gustavoacacio.listadecompra.core.service.ServiceAbstract;
+import com.gustavoacacio.listadecompra.core.service.JpaServiceImpl;
 import com.gustavoacacio.listadecompra.domain.mapper.LocalMapper;
 import com.gustavoacacio.listadecompra.domain.model.Local;
 import com.gustavoacacio.listadecompra.domain.model.dto.LocalDto;
-import com.gustavoacacio.listadecompra.domain.repository.LocalRepository;
+import com.gustavoacacio.listadecompra.domain.repository.jpa.LocalRepository;
 import com.gustavoacacio.listadecompra.exception.RegistroJaCadastradoException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class LocalServiceImpl extends ServiceAbstract<Local, UUID, LocalRepository> implements LocalService {
+public class LocalServiceImpl extends JpaServiceImpl<Local, UUID, LocalRepository> implements LocalService {
 
     private final LocalMapper localMapper;
 

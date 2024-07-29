@@ -1,10 +1,10 @@
 package com.gustavoacacio.listadecompra.domain.service.historico;
 
-import com.gustavoacacio.listadecompra.core.service.ServiceAbstract;
+import com.gustavoacacio.listadecompra.core.service.JpaServiceImpl;
 import com.gustavoacacio.listadecompra.domain.mapper.HistoricoItemMapper;
 import com.gustavoacacio.listadecompra.domain.model.dto.HistoricoItemDto;
 import com.gustavoacacio.listadecompra.domain.model.historico.HistoricoItem;
-import com.gustavoacacio.listadecompra.domain.repository.HistoricoItemRepository;
+import com.gustavoacacio.listadecompra.domain.repository.jpa.HistoricoItemRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class HistoricoItemServiceImpl extends ServiceAbstract<HistoricoItem, Long, HistoricoItemRepository> implements HistoricoItemService {
+public class HistoricoItemServiceImpl extends JpaServiceImpl<HistoricoItem, Long, HistoricoItemRepository> implements HistoricoItemService {
 
     private final HistoricoItemMapper historicoItemMapper;
 

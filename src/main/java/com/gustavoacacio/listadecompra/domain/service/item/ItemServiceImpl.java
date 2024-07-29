@@ -1,10 +1,10 @@
 package com.gustavoacacio.listadecompra.domain.service.item;
 
-import com.gustavoacacio.listadecompra.core.service.ServiceAbstract;
+import com.gustavoacacio.listadecompra.core.service.JpaServiceImpl;
 import com.gustavoacacio.listadecompra.domain.mapper.ItemMapper;
 import com.gustavoacacio.listadecompra.domain.model.Item;
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
-import com.gustavoacacio.listadecompra.domain.repository.ItemRepository;
+import com.gustavoacacio.listadecompra.domain.repository.jpa.ItemRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ItemServiceImpl extends ServiceAbstract<Item, Long, ItemRepository> implements ItemService {
+public class ItemServiceImpl extends JpaServiceImpl<Item, Long, ItemRepository> implements ItemService {
 
     private final ItemMapper itemMapper;
 

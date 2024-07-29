@@ -1,10 +1,10 @@
 package com.gustavoacacio.listadecompra.domain.model;
 
+import com.gustavoacacio.listadecompra.core.model.EntityAbstract;
 import jakarta.persistence.Id;
 import lombok.*;
 import org.springframework.data.redis.core.RedisHash;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,10 +14,11 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @RedisHash("CarrinhoDeCompra")
-public class CarrinhoDeCompra implements Serializable {
+public class CarrinhoDeCompra extends EntityAbstract {
+
+    @Id
+    private String id;
 
     @Builder.Default
     List<Long> itensIds = new ArrayList<>();
-    @Id
-    private String id;
 }

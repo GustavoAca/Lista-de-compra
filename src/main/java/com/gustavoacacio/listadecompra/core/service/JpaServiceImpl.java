@@ -1,17 +1,17 @@
 package com.gustavoacacio.listadecompra.core.service;
 
 import com.gustavoacacio.listadecompra.core.model.EntityAbstract;
-import com.gustavoacacio.listadecompra.core.repository.BaseRepository;
+import com.gustavoacacio.listadecompra.core.repository.jpa.JpaRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.io.Serializable;
 import java.util.Optional;
 
-public class ServiceAbstract<E extends EntityAbstract, K extends Serializable, R extends BaseRepository<E, K>> implements BaseService<E, K> {
+public class JpaServiceImpl<E extends EntityAbstract, K extends Serializable, R extends JpaRepository<E, K>> implements BaseServiceAbstract<E, K> {
     protected R repo;
 
-    protected ServiceAbstract(R repo) {
+    protected JpaServiceImpl(R repo) {
         this.repo = repo;
     }
 

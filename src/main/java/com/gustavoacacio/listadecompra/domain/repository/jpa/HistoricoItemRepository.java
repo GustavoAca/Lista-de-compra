@@ -1,14 +1,13 @@
-package com.gustavoacacio.listadecompra.domain.repository;
+package com.gustavoacacio.listadecompra.domain.repository.jpa;
 
-import com.gustavoacacio.listadecompra.core.repository.BaseRepository;
+import com.gustavoacacio.listadecompra.core.repository.jpa.JpaRepository;
 import com.gustavoacacio.listadecompra.domain.model.historico.HistoricoItem;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface HistoricoItemRepository extends JpaRepository<HistoricoItem, Long>, BaseRepository<HistoricoItem, Long> {
+public interface HistoricoItemRepository extends org.springframework.data.jpa.repository.JpaRepository<HistoricoItem, Long>, JpaRepository<HistoricoItem, Long> {
 
     Page<HistoricoItem> findByCompraId(Long compraId, Pageable pageable);
 

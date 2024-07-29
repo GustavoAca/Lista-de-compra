@@ -1,12 +1,12 @@
 package com.gustavoacacio.listadecompra.domain.service.role;
 
-import com.gustavoacacio.listadecompra.core.service.ServiceAbstract;
+import com.gustavoacacio.listadecompra.core.service.JpaServiceImpl;
 import com.gustavoacacio.listadecompra.domain.model.Role;
-import com.gustavoacacio.listadecompra.domain.repository.RoleRepository;
+import com.gustavoacacio.listadecompra.domain.repository.jpa.RoleRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RoleServiceImpl extends ServiceAbstract<Role, Long, RoleRepository> implements RoleService {
+public class RoleServiceImpl extends JpaServiceImpl<Role, Long, RoleRepository> implements RoleService {
 
     protected RoleServiceImpl(RoleRepository repo) {
         super(repo);

@@ -1,10 +1,10 @@
 package com.gustavoacacio.listadecompra.domain.service.user;
 
 import com.gustavoacacio.listadecompra.controller.dto.CreateUserDto;
-import com.gustavoacacio.listadecompra.core.service.ServiceAbstract;
+import com.gustavoacacio.listadecompra.core.service.JpaServiceImpl;
 import com.gustavoacacio.listadecompra.domain.model.Role;
 import com.gustavoacacio.listadecompra.domain.model.User;
-import com.gustavoacacio.listadecompra.domain.repository.UserRepository;
+import com.gustavoacacio.listadecompra.domain.repository.jpa.UserRepository;
 import com.gustavoacacio.listadecompra.domain.service.role.RoleService;
 import com.gustavoacacio.listadecompra.exception.UsuarioJaCadastradoException;
 import jakarta.transaction.Transactional;
@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
-public class UserServiceImpl extends ServiceAbstract<User, UUID, UserRepository> implements UserService {
+public class UserServiceImpl extends JpaServiceImpl<User, UUID, UserRepository> implements UserService {
 
     private final RoleService roleService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
