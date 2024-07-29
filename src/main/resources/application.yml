@@ -24,13 +24,6 @@ logging:
     root: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
-  file:
-    name: application.log
-  logback:
-    rollingpolicy:
-      fileNamePattern: application-%d{yyyy-MM-dd}.%i.log
-      maxFileSize: 10MB
-      maxHistory: 7
 
 jwt:
   public:

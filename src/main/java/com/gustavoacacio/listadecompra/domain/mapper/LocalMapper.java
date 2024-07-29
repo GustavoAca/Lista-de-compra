@@ -7,10 +7,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class LocalMapper {
 
-    public Local toDto(LocalDto localDto) {
+    public Local toEntity(LocalDto localDto) {
         return Local.builder()
                 .id(localDto.getId())
-                .itens(localDto.getItens())
                 .nome(localDto.getNome())
                 .createdBy(localDto.getCreatedBy())
                 .createdDate(localDto.getCreatedDate())
@@ -22,7 +21,6 @@ public class LocalMapper {
     public LocalDto toDto(Local local) {
         return LocalDto.builder()
                 .id(local.getId())
-                .itens(local.getItens())
                 .nome(local.getNome())
                 .createdBy(local.getCreatedBy())
                 .createdDate(local.getCreatedDate())

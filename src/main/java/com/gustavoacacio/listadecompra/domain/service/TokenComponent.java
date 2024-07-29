@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -33,10 +34,7 @@ public class TokenComponent {
     public LoginResponse login(LoginRequest loginRequest) {
         var user = userService.findByUsername(loginRequest.username());
 
-        if (user.isEmpty() || !user.get().isLoginCorretc(loginRequest, passwordEncoder)) {
-            throw new CredencialException();
-        }
-
+        validar(user, loginRequest);
         var now = Instant.now();
         var expiresIn = 3050L;
         var scope = user.get().getRoles().stream()
@@ -52,5 +50,11 @@ public class TokenComponent {
 
         var jwtValue = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
         return new LoginResponse(jwtValue, expiresIn);
+    }
+
+    private void validar(Optional<User> user, LoginRequest loginRequest) {
+        if (user.isEmpty() || !user.get().isLoginCorretc(loginRequest, passwordEncoder)) {
+            throw new CredencialException();
+        }
     }
 }

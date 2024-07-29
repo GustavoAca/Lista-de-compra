@@ -6,8 +6,8 @@ import org.springframework.http.ProblemDetail;
 import java.io.Serializable;
 
 public class RegistroNaoEncontradoException extends ListaExcepion {
-    private final Serializable id;
-    private final String registro;
+    private Serializable id;
+    private String registro;
 
     public RegistroNaoEncontradoException(Serializable id, String registro) {
         this.id = id;

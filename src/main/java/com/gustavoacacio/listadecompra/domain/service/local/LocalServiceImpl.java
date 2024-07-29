@@ -30,7 +30,7 @@ public class LocalServiceImpl extends ServiceAbstract<Local, UUID, LocalReposito
         if (repo.findByNome(localDto.getNome()).isPresent()) {
             throw new RegistroJaCadastradoException("Local já cadastrado");
         }
-        return localMapper.toDto(super.salvar(localMapper.toDto(localDto)));
+        return localMapper.toDto(super.salvar(localMapper.toEntity(localDto)));
     }
 
     @Override
