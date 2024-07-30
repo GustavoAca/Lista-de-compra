@@ -34,22 +34,23 @@ services:
       - "6379:6379"
     volumes:
       - ./.data/duducp/RedisData:/data
-#  app:
-#    build: ../.
-#    container_name: lista-app
-#    depends_on:
-#      - postgres
-#      - rabbitmq
-#    environment:
-#      RABBITMQ_HOST: rabbitmq
-#      RABBITMQ_PORTA: 5672
-#      RABBITMQ_USERNAME: lista-rabbit
-#      RABBITMQ_PASSWORD: 1234567
-#      POSTGRES_URL: jdbc:postgresql://postgres:5432/compras
-#      POSTGRES_USERNAME: postgres
-#      POSTGRES_PASSWORD: 1234567
-#    ports:
-#      - "8080:8080"
+
+  app:
+    build: ../.
+    container_name: lista-app
+    depends_on:
+      - postgres
+      - rabbitmq
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORTA: 5672
+      RABBITMQ_USERNAME: lista-rabbit
+      RABBITMQ_PASSWORD: 1234567
+      POSTGRES_URL: jdbc:postgresql://postgres:5432/compras
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: 1234567
+    ports:
+      - "8080:8080"
 
 volumes:
   rabbitmq-data:
