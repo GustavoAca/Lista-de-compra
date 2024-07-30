@@ -8,7 +8,19 @@ ENV JAVA_OPTS="-Xmx256m -Xms128m"
 
 RUN adduser -D listadecompra
 
+RUN apk update && \
+    apk add zsh curl git ca-certificates && \
+    rm -rf /var/cache/apk/*
+
 USER listadecompra
+
+WORKDIR /home/listadecompra
+
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+
+RUN touch /home/listadecompra/.zshrc
+
+WORKDIR /app
 
 EXPOSE 8080
 
