@@ -41,6 +41,7 @@ services:
     depends_on:
       - postgres
       - rabbitmq
+      - redis
     environment:
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_PORTA: 5672

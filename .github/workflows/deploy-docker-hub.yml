@@ -37,8 +37,8 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
 
-      - name: Build project
-        run: mvn -B clean compile
+      - name: Verificar dependências e package
+        run: mvn package
 
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USER }}" --password-stdin
