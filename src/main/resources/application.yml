@@ -1,7 +1,7 @@
 spring:
   jackson:
     date-format: yyyy-MM-dd'T'HH:mm:ss
-    time-zone: UTC
+    time-zone: Brazil/East
   jpa:
     properties:
       hibernate:
@@ -19,6 +19,13 @@ spring:
     port: 5672
     username: lista-rabbit
     password: 1234567
+  cache:
+    type: redis
+    cache-names: listarHistoricoDeItensPorItemId,listaDeLocais,listaDeCompra,listaDeItens,listaDeItemPorNome
+  data:
+    redis:
+      host: localhost
+      port: 6379
 logging:
   level:
     root: DEBUG

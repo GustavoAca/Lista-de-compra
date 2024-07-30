@@ -7,12 +7,12 @@ import org.springframework.data.domain.Pageable;
 import java.io.Serializable;
 import java.util.Optional;
 
-public interface BaseService<T extends EntityAbstract, K extends Serializable> {
-    T salvar(T entity);
+public interface BaseServiceAbstract<E extends EntityAbstract, K extends Serializable> {
+    E salvar(E entity);
 
-    Page<T> listarPagina(Pageable pageable);
+    Page<E> listarPagina(Pageable pageable);
 
-    Optional<T> buscarPorId(K id);
+    Optional<E> buscarPorId(K id);
 
     Boolean deletar(K id);
 }

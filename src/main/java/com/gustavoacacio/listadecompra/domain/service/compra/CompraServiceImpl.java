@@ -1,15 +1,17 @@
 package com.gustavoacacio.listadecompra.domain.service.compra;
 
 
-import com.gustavoacacio.listadecompra.core.service.ServiceAbstract;
+import com.gustavoacacio.listadecompra.core.service.JpaServiceImpl;
 import com.gustavoacacio.listadecompra.domain.mapper.CompraMapper;
 import com.gustavoacacio.listadecompra.domain.model.Compra;
 import com.gustavoacacio.listadecompra.domain.model.dto.CompraDto;
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
-import com.gustavoacacio.listadecompra.domain.repository.CompraRepository;
+import com.gustavoacacio.listadecompra.domain.repository.jpa.CompraRepository;
 import com.gustavoacacio.listadecompra.domain.service.item.ItemService;
 import com.gustavoacacio.listadecompra.exception.RegistroNaoEncontradoException;
 import com.gustavoacacio.listadecompra.producer.ItemProducer;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +23,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class CompraServiceImpl extends ServiceAbstract<Compra, Long, CompraRepository> implements CompraService {
+public class CompraServiceImpl extends JpaServiceImpl<Compra, Long, CompraRepository> implements CompraService {
 
     private final CompraMapper compraMapper;
     private final ItemService itemService;
@@ -37,6 +39,7 @@ public class CompraServiceImpl extends ServiceAbstract<Compra, Long, CompraRepos
         this.itemProducer = itemProducer;
     }
 
+    @CacheEvict(value = {"listaDeCompra", "listaDeItem"}, allEntries = true)
     public CompraDto salvar(CompraDto compraDto) {
         CompraDto compraDtoNova = fabricarCompra(compraDto);
         var compraSalva = compraMapper.toDto(super.salvar(compraMapper.toEntity(adicionarItens(compraDto, compraDtoNova))));
@@ -44,10 +47,11 @@ public class CompraServiceImpl extends ServiceAbstract<Compra, Long, CompraRepos
         return compraSalva;
     }
 
-    public CompraDto fabricarCompra(CompraDto compraDto) {
+    private CompraDto fabricarCompra(CompraDto compraDto) {
         Compra compra = Compra.builder().build();
         if (Objects.nonNull(compraDto.getId())) {
-            compra = repo.findById(compraDto.getId()).orElseThrow(() -> new RegistroNaoEncontradoException(compraDto.getId(), CompraDto.class.getName()));
+            compra = repo.findById(compraDto.getId())
+                    .orElseThrow(() -> new RegistroNaoEncontradoException(compraDto.getId(), CompraDto.class.getName()));
         } else {
             compra = repo.save(compra);
         }
@@ -80,6 +84,7 @@ public class CompraServiceImpl extends ServiceAbstract<Compra, Long, CompraRepos
     }
 
     @Override
+    @Cacheable(value = "listaDeCompra", key = "#pageable.pageNumber")
     public Page<CompraDto> listar(Pageable pageable) {
         Page<Compra> compraPage = super.listarPagina(pageable);
         List<CompraDto> comprasDtosList = compraPage.getContent()

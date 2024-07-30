@@ -28,4 +28,9 @@ public class ItemController {
                                                        @PageableDefault(page = 0, size = 20) Pageable pageable) {
         return ResponseEntity.ok(itemService.listarPorNome(nome, pageable));
     }
+
+    @GetMapping()
+    public ResponseEntity<Page<ItemDto>> listar(@PageableDefault(page = 0, size = 20) Pageable pageable) {
+        return ResponseEntity.ok(itemService.listarPaginado(pageable));
+    }
 }

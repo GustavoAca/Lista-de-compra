@@ -16,9 +16,9 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-      
+
       - name: Build project
-        run: mvn -B clean install
+        run: mvn -B clean compile
 
       - name: Verificar dependências
         run: mvn dependency:resolve
@@ -36,7 +36,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-      
+
       - name: Build project
         run: mvn package
 

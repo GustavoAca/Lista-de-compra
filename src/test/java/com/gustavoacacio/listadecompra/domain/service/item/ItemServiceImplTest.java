@@ -6,7 +6,7 @@ import com.gustavoacacio.listadecompra.domain.model.Item;
 import com.gustavoacacio.listadecompra.domain.model.Local;
 import com.gustavoacacio.listadecompra.domain.model.dto.CompraDto;
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
-import com.gustavoacacio.listadecompra.domain.repository.CompraRepository;
+import com.gustavoacacio.listadecompra.domain.repository.jpa.CompraRepository;
 import com.gustavoacacio.listadecompra.domain.service.compra.CompraService;
 import com.gustavoacacio.listadecompra.domain.service.compra.CompraServiceImpl;
 import com.gustavoacacio.listadecompra.domain.service.local.LocalService;
@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
@@ -77,7 +78,8 @@ class ItemServiceImplTest extends ListaDeCompraApplicationTests {
 
             @BeforeEach
             void setup() {
-                itemDtoPage = itemService.listarPorNome("Abobo", Pageable.unpaged());
+                Pageable pageable = PageRequest.of(0, 1);
+                itemDtoPage = itemService.listarPorNome("Abobo", pageable);
             }
 
             @Test
