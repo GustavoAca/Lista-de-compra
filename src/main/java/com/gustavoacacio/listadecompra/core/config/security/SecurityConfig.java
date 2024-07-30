@@ -62,9 +62,6 @@ public class SecurityConfig {
             if (scope != null) {
                 authorities.add(new SimpleGrantedAuthority("ROLE_" + scope));
             }
-            for (var a : authorities) {
-                log.debug("authori {}", a);
-            }
             return authorities;
         });
         return jwtAuthenticationConverter;
