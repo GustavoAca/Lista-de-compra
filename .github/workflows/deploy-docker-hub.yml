@@ -62,7 +62,7 @@ jobs:
           java-version: '17'
 
       - name: Verificar dependências e package
-        run: mvn package
+        run: mvn clean install -DskipTests
 
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USER }}" --password-stdin
