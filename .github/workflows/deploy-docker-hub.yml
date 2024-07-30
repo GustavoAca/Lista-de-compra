@@ -23,9 +23,33 @@ jobs:
       - name: Verificar dependências
         run: mvn dependency:resolve
 
-  deploy-imagem-docker-hub:
+  testar-projeto:
     runs-on: ubuntu-latest
     needs: criar-projeto
+    services:
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+
+      - name: Run tests
+        run: mvn test
+        env:
+          REDIS_HOST: 127.0.0.1
+          REDIS_PORT: 6379
+
+  deploy-imagem-docker-hub:
+    runs-on: ubuntu-latest
+    needs: testar-projeto
 
     steps:
       - name: Checkout code
