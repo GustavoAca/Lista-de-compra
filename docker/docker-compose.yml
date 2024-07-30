@@ -36,7 +36,7 @@ services:
       - ./.data/duducp/RedisData:/data
 
   app:
-    build: ../.
+    image: gacacio/listadecompra:latest
     container_name: lista-app
     depends_on:
       - postgres
