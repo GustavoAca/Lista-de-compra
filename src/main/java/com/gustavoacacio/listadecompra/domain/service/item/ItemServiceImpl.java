@@ -5,6 +5,7 @@ import com.gustavoacacio.listadecompra.domain.mapper.ItemMapper;
 import com.gustavoacacio.listadecompra.domain.model.Item;
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
 import com.gustavoacacio.listadecompra.domain.repository.jpa.ItemRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -27,8 +28,21 @@ public class ItemServiceImpl extends JpaServiceImpl<Item, Long, ItemRepository> 
         return itemMapper.toDto(super.salvar(itemMapper.toEntity(itemDto)));
     }
 
+    @Cacheable(value = "listaDeItemPorNome", key = "#pageable.pageNumber + '_' + #nome")
     public Page<ItemDto> listarPorNome(String nome, Pageable pageable) {
         Page<Item> itemPage = repo.findAllByNomeContainingIgnoreCase(nome, pageable);
+
+        List<ItemDto> itemDtoList = itemPage.getContent()
+                .stream()
+                .map(itemMapper::toDto)
+                .toList();
+
+        return new PageImpl<>(itemDtoList, pageable, itemPage.getTotalElements());
+    }
+
+    @Cacheable(value = "listaDeItens", key = "#pageable.pageNumber")
+    public Page<ItemDto> listarPaginado(Pageable pageable) {
+        Page<Item> itemPage = super.listarPagina(pageable);
 
         List<ItemDto> itemDtoList = itemPage.getContent()
                 .stream()

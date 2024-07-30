@@ -18,6 +18,8 @@ import java.util.UUID;
 @SuperBuilder
 public class ItemDto implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private String nome;
     private Long quantidade;
@@ -26,7 +28,6 @@ public class ItemDto implements Serializable {
     private UUID localId;
     private LocalDateTime modifiedDate;
     private String modifiedBy;
-    private java.time.LocalDateTime createdDate;
+    private LocalDateTime createdDate;
     private String createdBy;
-    
 }

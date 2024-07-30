@@ -4,6 +4,7 @@ import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
 import com.gustavoacacio.listadecompra.domain.model.historico.TipoHistorico;
 import com.gustavoacacio.listadecompra.domain.service.historico.HistoricoItemService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ public class HistoricoItemConsumer {
     }
 
     @RabbitListener(queues = TOPICO_LISTA_CRIOU_HISTORICO)
+    @CacheEvict(value = {"listarHistoricoDeItensPorItemId"}, allEntries = true)
     public void listenItemQueue(@Payload ItemDto itemDto) {
         historicoItemService.salvar(TipoHistorico.TIPO_HISTORICO_ITEM.getFactory(itemDto));
     }

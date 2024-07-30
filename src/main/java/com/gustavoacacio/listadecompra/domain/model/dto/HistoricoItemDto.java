@@ -2,6 +2,7 @@ package com.gustavoacacio.listadecompra.domain.model.dto;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -11,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class HistoricoItemDto {
+public class HistoricoItemDto implements Serializable {
 
     private Long id;
     private Long compraId;

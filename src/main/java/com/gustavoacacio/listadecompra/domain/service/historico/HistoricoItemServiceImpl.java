@@ -5,6 +5,7 @@ import com.gustavoacacio.listadecompra.domain.mapper.HistoricoItemMapper;
 import com.gustavoacacio.listadecompra.domain.model.dto.HistoricoItemDto;
 import com.gustavoacacio.listadecompra.domain.model.historico.HistoricoItem;
 import com.gustavoacacio.listadecompra.domain.repository.jpa.HistoricoItemRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -29,17 +30,16 @@ public class HistoricoItemServiceImpl extends JpaServiceImpl<HistoricoItem, Long
     }
 
     @Override
+    @Cacheable(value = "listarHistoricoDeItensPorItemId", key = "#pageable.getPageNumber() + '_' + #compraId")
     public Page<HistoricoItemDto> listarPorItemId(Long compraId, Pageable pageable) {
         return converterPageEntityToDto(repo.findByItemId(compraId, pageable), pageable);
     }
 
     private Page<HistoricoItemDto> converterPageEntityToDto(Page<HistoricoItem> historicoItems, Pageable pageable) {
-        Page<HistoricoItem> historicoItemsPage = historicoItems;
-        List<HistoricoItemDto> historicoItemDtos = historicoItemsPage.getContent()
+        List<HistoricoItemDto> historicoItemDtos = historicoItems.getContent()
                 .stream()
                 .map(historicoItemMapper::toDto)
                 .toList();
-        return new PageImpl<>(historicoItemDtos, pageable, historicoItemsPage.getTotalElements());
-
+        return new PageImpl<>(historicoItemDtos, pageable, historicoItems.getTotalElements());
     }
 }

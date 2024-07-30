@@ -11,4 +11,6 @@ public interface ItemService extends JpaService<Item, Long> {
     ItemDto atualizar(ItemDto itemDto);
 
     Page<ItemDto> listarPorNome(String nome, Pageable pageable);
+
+    Page<ItemDto> listarPaginado(Pageable pageable);
 }
