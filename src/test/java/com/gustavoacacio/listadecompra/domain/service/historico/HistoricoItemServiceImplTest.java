@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
@@ -60,7 +61,8 @@ class HistoricoItemServiceImplTest extends ListaDeCompraApplicationTests {
 
             @BeforeEach
             void setup() {
-                historicoItemDtoPage = historicoItemService.listarPorItemId(historicoItem.getItemId(), Pageable.unpaged());
+                Pageable pageable = PageRequest.of(0, 1);
+                historicoItemDtoPage = historicoItemService.listarPorItemId(historicoItem.getItemId(), pageable);
             }
 
             @Test
