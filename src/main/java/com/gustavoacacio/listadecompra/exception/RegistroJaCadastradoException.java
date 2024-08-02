@@ -6,7 +6,6 @@ import org.springframework.http.ProblemDetail;
 public class RegistroJaCadastradoException extends ListaExcepion {
     private final String mensagem;
 
-
     public RegistroJaCadastradoException(String mensagem) {
         this.mensagem = mensagem;
     }

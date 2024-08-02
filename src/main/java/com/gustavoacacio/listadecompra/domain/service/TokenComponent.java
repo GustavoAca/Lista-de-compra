@@ -4,6 +4,7 @@ import com.gustavoacacio.listadecompra.controller.dto.LoginRequest;
 import com.gustavoacacio.listadecompra.controller.dto.LoginResponse;
 import com.gustavoacacio.listadecompra.domain.model.Role;
 import com.gustavoacacio.listadecompra.domain.model.User;
+import com.gustavoacacio.listadecompra.domain.model.dto.UserSubjectDto;
 import com.gustavoacacio.listadecompra.domain.service.user.UserService;
 import com.gustavoacacio.listadecompra.exception.CredencialException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,6 +23,7 @@ public class TokenComponent {
     private final JwtEncoder jwtEncoder;
     private final UserService userService;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final static Long EXPIRE_IS = 3050L;
 
     public TokenComponent(JwtEncoder jwtEncoder,
                           UserService userService,
@@ -35,21 +37,26 @@ public class TokenComponent {
         var user = userService.findByUsername(loginRequest.username());
 
         validar(user, loginRequest);
+
+        var claims = criarClaims(user.get());
+
+        var jwtValue = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+        return new LoginResponse(jwtValue, EXPIRE_IS);
+    }
+
+    private JwtClaimsSet criarClaims(User user) {
         var now = Instant.now();
-        var expiresIn = 3050L;
-        var scope = user.get().getRoles().stream()
+
+        var scope = user.getRoles().stream()
                 .map(Role::getName)
                 .collect(Collectors.joining(" "));
-        var claims = JwtClaimsSet.builder()
+        return JwtClaimsSet.builder()
                 .issuer("listadecompra")
-                .subject(User.builder().id(user.get().getId()).username(user.get().getUsername()).build().toString())
-                .expiresAt(now.plusSeconds(expiresIn))
+                .subject(UserSubjectDto.builder().userId(user.getId()).username(user.getUsername()).build().toString())
+                .expiresAt(now.plusSeconds(EXPIRE_IS))
                 .issuedAt(now)
                 .claim("scope", scope)
                 .build();
-
-        var jwtValue = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
-        return new LoginResponse(jwtValue, expiresIn);
     }
 
     private void validar(Optional<User> user, LoginRequest loginRequest) {

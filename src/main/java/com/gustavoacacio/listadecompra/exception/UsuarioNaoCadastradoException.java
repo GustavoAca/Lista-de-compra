@@ -11,6 +11,7 @@ public class UsuarioNaoCadastradoException extends ListaExcepion {
         this.username = username;
     }
 
+    @Override
     public ProblemDetail toProblemDetail() {
         var pb = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
         pb.setTitle("Usuário não está cadastrado");

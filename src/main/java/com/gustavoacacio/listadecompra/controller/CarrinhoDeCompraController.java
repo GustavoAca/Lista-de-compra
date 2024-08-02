@@ -5,6 +5,8 @@ import com.gustavoacacio.listadecompra.domain.service.carrinhodecompra.CarrinhoD
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/carrinho-de-compra")
 public class CarrinhoDeCompraController {
@@ -20,8 +22,8 @@ public class CarrinhoDeCompraController {
         return ResponseEntity.ok(carrinhoDeCompraService.salvar(carrinhoDeCompraDto));
     }
 
-    @GetMapping
-    public ResponseEntity<CarrinhoDeCompraDto> getUltimoCarrinho() {
+    @GetMapping("/mais-recente")
+    public ResponseEntity<Optional<CarrinhoDeCompraDto>> getUltimoCarrinho() {
         return ResponseEntity.ok(carrinhoDeCompraService.getUltimoCarrinho());
     }
 }

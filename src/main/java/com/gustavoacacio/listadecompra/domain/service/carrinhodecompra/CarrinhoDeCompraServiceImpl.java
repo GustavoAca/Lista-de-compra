@@ -1,12 +1,15 @@
 package com.gustavoacacio.listadecompra.domain.service.carrinhodecompra;
 
 import com.gustavoacacio.listadecompra.core.service.JpaServiceImpl;
+import com.gustavoacacio.listadecompra.core.utils.SecurityContextUtils;
 import com.gustavoacacio.listadecompra.domain.mapper.CarrinhoDeCompraMapper;
 import com.gustavoacacio.listadecompra.domain.model.carrinhodecompra.CarrinhoDeCompra;
 import com.gustavoacacio.listadecompra.domain.model.dto.CarrinhoDeCompraDto;
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemNoCarrinhoDto;
 import com.gustavoacacio.listadecompra.domain.repository.jpa.CarrinhoDeCompraRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class CarrinhoDeCompraServiceImpl extends JpaServiceImpl<CarrinhoDeCompra, Long, CarrinhoDeCompraRepository> implements CarrinhoDeCompraService {
@@ -30,7 +33,8 @@ public class CarrinhoDeCompraServiceImpl extends JpaServiceImpl<CarrinhoDeCompra
     }
 
     @Override
-    public CarrinhoDeCompraDto getUltimoCarrinho() {
-        return null;
+    public Optional<CarrinhoDeCompraDto> getUltimoCarrinho() {
+        Optional<CarrinhoDeCompra> carrinhoDeCompra = repo.findFirstByCreatedByOrderByCreatedDateDesc(SecurityContextUtils.getUsername());
+        return carrinhoDeCompra.map(carrinhoDeCompraMapper::toDto);
     }
 }
