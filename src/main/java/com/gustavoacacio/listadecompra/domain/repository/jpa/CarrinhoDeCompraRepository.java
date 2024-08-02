@@ -5,5 +5,5 @@ import com.gustavoacacio.listadecompra.domain.model.carrinhodecompra.CarrinhoDeC
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CarrinhoDeCompraRepository extends JpaRepository<CarrinhoDeCompra, String> {
+public interface CarrinhoDeCompraRepository extends JpaRepository<CarrinhoDeCompra, Long> {
 }
