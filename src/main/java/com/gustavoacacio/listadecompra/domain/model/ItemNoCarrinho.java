@@ -1,6 +1,7 @@
 package com.gustavoacacio.listadecompra.domain.model;
 
 import com.gustavoacacio.listadecompra.core.model.EntityAbstract;
+import com.gustavoacacio.listadecompra.domain.model.carrinhodecompra.CarrinhoDeCompra;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -13,9 +14,9 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "itens")
+@Table(name = "itens_no_carrinho")
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
-public class Item extends EntityAbstract {
+public class ItemNoCarrinho extends EntityAbstract {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,11 +32,7 @@ public class Item extends EntityAbstract {
     @Builder.Default
     private Boolean promocao = Boolean.FALSE;
 
-    @ManyToOne
-    @JoinColumn(name = "compra_id")
-    private Compra compra;
-
-    @ManyToOne
-    @JoinColumn(name = "local_id")
-    private Local local;
+    @OneToOne
+    @JoinColumn(name = "carrinho_de_compra_id")
+    private CarrinhoDeCompra carrinhoDeCompra;
 }
