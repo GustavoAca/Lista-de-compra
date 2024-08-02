@@ -19,12 +19,13 @@ spring:
     port: 5672
     username: lista-rabbit
     password: 1234567
-  redis:
-    host: localhost
-    port: 6379
   cache:
     type: redis
     cache-names: listarHistoricoDeItensPorItemId,listaDeLocais,listaDeCompra,listaDeItens,listaDeItemPorNome
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
 logging:
   level:
     root: DEBUG
@@ -45,6 +46,10 @@ spring:
   config:
     activate:
       on-profile: test
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
 
   datasource:
     url: jdbc:h2:mem:testdb

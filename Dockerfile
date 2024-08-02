@@ -7,10 +7,21 @@ COPY target/*.jar /app/app.jar
 ENV JAVA_OPTS="-Xmx256m -Xms128m"
 
 RUN adduser -D listadecompra
+
+RUN apk update && \
+    apk add zsh curl git ca-certificates && \
+    rm -rf /var/cache/apk/*
+
 USER listadecompra
 
-CMD ["sh", "-c", "java $JAVA_OPTS -jar /app/app.jar --spring.profiles.active=prod > /app/app.log 2>&1"]
+WORKDIR /home/listadecompra
 
-RUN rm -rf /var/cache/apk/*
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+
+RUN touch /home/listadecompra/.zshrc
+
+WORKDIR /app
 
 EXPOSE 8080
+
+CMD ["sh", "-c", "java $JAVA_OPTS -jar /app/app.jar --spring.profiles.active=prod"]

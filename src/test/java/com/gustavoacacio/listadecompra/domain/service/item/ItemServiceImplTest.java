@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
@@ -77,7 +78,8 @@ class ItemServiceImplTest extends ListaDeCompraApplicationTests {
 
             @BeforeEach
             void setup() {
-                itemDtoPage = itemService.listarPorNome("Abobo", Pageable.unpaged());
+                Pageable pageable = PageRequest.of(0, 1);
+                itemDtoPage = itemService.listarPorNome("Abobo", pageable);
             }
 
             @Test

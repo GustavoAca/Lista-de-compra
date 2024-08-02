@@ -18,18 +18,44 @@ CREATE TABLE LOCAIS (
     	CONSTRAINT COMPRA_UK PRIMARY KEY ( ID )
  );
 
+  CREATE TABLE CARRINHO_DE_COMPRA (
+     	ID                   SERIAL                     NOT NULL,
+     	CREATED_DATE         timestamp with time zone   NULL,
+     	MODIFIED_DATE        timestamp with time zone   NULL,
+     	CREATED_BY           VARCHAR(100)               NULL,
+     	MODIFIED_BY          VARCHAR(100)               NULL,
+     	CONSTRAINT CARRINHO_DE_COMPRA_UK PRIMARY KEY ( ID )
+  );
+
+CREATE TABLE ITENS_NO_CARRINHO (
+	ID                    SERIAL                    NOT NULL,
+	CARRINHO_DE_COMPRA_ID SERIAL                    NOT NULL,
+	NOME                  VARCHAR(250)              NULL,
+	QUANTIDADE            BIGINT                    NULL,
+	PROMOCAO              BOOLEAN                   NULL,
+	VALOR                 NUMERIC(15, 2)            NULL,
+	CREATED_DATE          timestamp with time zone  NULL,
+	MODIFIED_DATE         timestamp with time zone  NULL,
+	CREATED_BY            VARCHAR(100)              NULL,
+	MODIFIED_BY           VARCHAR(100)              NULL,
+	CONSTRAINT ITENS_NO_CARRINHO_PK PRIMARY KEY ( ID )
+ );
+
+ ALTER TABLE ITENS_NO_CARRINHO ADD CONSTRAINT FK_ITENS_NO_CARRINHO_CARRINHO_DE_COMPRA_ID FOREIGN KEY ( CARRINHO_DE_COMPRA_ID ) REFERENCES CARRINHO_DE_COMPRA( ID );
+
 CREATE TABLE ITENS (
-	ID                   SERIAL                    NOT NULL,
-	COMPRA_ID            SERIAL                    NOT NULL,
-	LOCAL_ID             UUID                      NOT NULL,
-	NOME                 VARCHAR(250)              NOT NULL,
-	QUANTIDADE           BIGINT                    NOT NULL,
-	PROMOCAO             BOOLEAN                   NOT NULL,
-	VALOR                NUMERIC(15, 2)            NOT NULL,
-	CREATED_DATE         timestamp with time zone  NULL,
-	MODIFIED_DATE        timestamp with time zone  NULL,
-	CREATED_BY           VARCHAR(100)              NULL,
-	MODIFIED_BY          VARCHAR(100)              NULL,
+	ID                    SERIAL                    NOT NULL,
+	COMPRA_ID             SERIAL                    NOT NULL,
+	CARRINHO_DE_COMPRA_ID SERIAL                    NOT NULL,
+	LOCAL_ID              UUID                      NOT NULL,
+	NOME                  VARCHAR(250)              NOT NULL,
+	QUANTIDADE            BIGINT                    NOT NULL,
+	PROMOCAO              BOOLEAN                   NOT NULL,
+	VALOR                 NUMERIC(15, 2)            NOT NULL,
+	CREATED_DATE          timestamp with time zone  NULL,
+	MODIFIED_DATE         timestamp with time zone  NULL,
+	CREATED_BY            VARCHAR(100)              NULL,
+	MODIFIED_BY           VARCHAR(100)              NULL,
 	CONSTRAINT ITENS_PK PRIMARY KEY ( ID )
  );
 
