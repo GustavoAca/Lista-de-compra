@@ -9,7 +9,7 @@ import com.gustavoacacio.listadecompra.domain.repository.jpa.CarrinhoDeCompraRep
 import org.springframework.stereotype.Service;
 
 @Service
-public class CarrinhoDeCompraServiceImpl extends JpaServiceImpl<CarrinhoDeCompra, String, CarrinhoDeCompraRepository> implements CarrinhoDeCompraService {
+public class CarrinhoDeCompraServiceImpl extends JpaServiceImpl<CarrinhoDeCompra, Long, CarrinhoDeCompraRepository> implements CarrinhoDeCompraService {
 
     private final CarrinhoDeCompraMapper carrinhoDeCompraMapper;
 
