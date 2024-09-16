@@ -24,6 +24,6 @@ public class CarrinhoDeCompraController {
 
     @GetMapping("/mais-recente")
     public ResponseEntity<Optional<CarrinhoDeCompraDto>> getUltimoCarrinho() {
-        return ResponseEntity.ok(carrinhoDeCompraService.getUltimoCarrinho());
+        return ResponseEntity.ok(carrinhoDeCompraService.encontrarPorUser());
     }
 }

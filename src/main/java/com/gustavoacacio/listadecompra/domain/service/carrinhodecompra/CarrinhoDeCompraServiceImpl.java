@@ -24,17 +24,22 @@ public class CarrinhoDeCompraServiceImpl extends JpaServiceImpl<CarrinhoDeCompra
 
     @Override
     public CarrinhoDeCompraDto salvar(CarrinhoDeCompraDto carrinhoDeCompraDto) {
-        var carrinho = carrinhoDeCompraMapper.toDto(super.salvar(carrinhoDeCompraMapper.toEntity(CarrinhoDeCompraDto.builder().build())));
+        var carrinho = carrinhoDeCompraMapper.toDto(pegarCarrinhoOuFabricar());
         carrinho.setItens(carrinhoDeCompraDto.getItens());
         for (ItemNoCarrinhoDto itemNoCarrinho : carrinho.getItens()) {
             itemNoCarrinho.setCarrinhoDeCompra(carrinho.getId());
         }
-        return carrinhoDeCompraMapper.toDto(super.salvar(carrinhoDeCompraMapper.toEntity(carrinhoDeCompraDto)));
+        return carrinhoDeCompraMapper.toDto(this.salvar(carrinhoDeCompraMapper.toEntity(carrinhoDeCompraDto)));
+    }
+
+    private CarrinhoDeCompra pegarCarrinhoOuFabricar() {
+        var car = repo.findCarrinhoPorUser(SecurityContextUtils.getUsername());
+        return car.orElseGet(() -> this.salvar(carrinhoDeCompraMapper.toEntity(CarrinhoDeCompraDto.builder().build())));
     }
 
     @Override
-    public Optional<CarrinhoDeCompraDto> getUltimoCarrinho() {
-        Optional<CarrinhoDeCompra> carrinhoDeCompra = repo.findFirstByCreatedByOrderByCreatedDateDesc(SecurityContextUtils.getUsername());
+    public Optional<CarrinhoDeCompraDto> encontrarPorUser() {
+        Optional<CarrinhoDeCompra> carrinhoDeCompra = repo.findCarrinhoPorUser(SecurityContextUtils.getUsername());
         return carrinhoDeCompra.map(carrinhoDeCompraMapper::toDto);
     }
 }

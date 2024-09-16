@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface CarrinhoDeCompraRepository extends JpaRepository<CarrinhoDeCompra, Long> {
 
     @Query("SELECT c FROM CarrinhoDeCompra c " +
-            "WHERE c.createdBy = :username ORDER BY c.createdDate DESC " +
-            "LIMIT 1")
-    Optional<CarrinhoDeCompra> findFirstByCreatedByOrderByCreatedDateDesc(@Param("username") String username);
+            "WHERE c.usuario = :user")
+    Optional<CarrinhoDeCompra> findCarrinhoPorUser(@Param("user") String user);
+
 }
