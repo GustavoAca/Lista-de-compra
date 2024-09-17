@@ -29,17 +29,17 @@ public class CarrinhoDeCompraServiceImpl extends JpaServiceImpl<CarrinhoDeCompra
         for (ItemNoCarrinhoDto itemNoCarrinho : carrinho.getItens()) {
             itemNoCarrinho.setCarrinhoDeCompra(carrinho.getId());
         }
-        return carrinhoDeCompraMapper.toDto(this.salvar(carrinhoDeCompraMapper.toEntity(carrinhoDeCompraDto)));
+        return carrinhoDeCompraMapper.toDto(this.salvar(carrinhoDeCompraMapper.toEntity(carrinho)));
     }
 
     private CarrinhoDeCompra pegarCarrinhoOuFabricar() {
-        var car = repo.findCarrinhoPorUser(SecurityContextUtils.getUsername());
-        return car.orElseGet(() -> this.salvar(carrinhoDeCompraMapper.toEntity(CarrinhoDeCompraDto.builder().build())));
+        var car = repo.findCarrinhoPorUserId(SecurityContextUtils.getId());
+        return car.orElseGet(() -> this.salvar(carrinhoDeCompraMapper.toEntity(CarrinhoDeCompraDto.builder().userId(SecurityContextUtils.getId()).build())));
     }
 
     @Override
     public Optional<CarrinhoDeCompraDto> encontrarPorUser() {
-        Optional<CarrinhoDeCompra> carrinhoDeCompra = repo.findCarrinhoPorUser(SecurityContextUtils.getUsername());
+        Optional<CarrinhoDeCompra> carrinhoDeCompra = repo.findCarrinhoPorUserId(SecurityContextUtils.getId());
         return carrinhoDeCompra.map(carrinhoDeCompraMapper::toDto);
     }
 }

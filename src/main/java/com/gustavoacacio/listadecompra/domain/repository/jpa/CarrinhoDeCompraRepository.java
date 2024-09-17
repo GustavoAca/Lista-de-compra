@@ -7,12 +7,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface CarrinhoDeCompraRepository extends JpaRepository<CarrinhoDeCompra, Long> {
 
     @Query("SELECT c FROM CarrinhoDeCompra c " +
-            "WHERE c.usuario = :user")
-    Optional<CarrinhoDeCompra> findCarrinhoPorUser(@Param("user") String user);
+            "WHERE c.usuario.id = :user")
+    Optional<CarrinhoDeCompra> findCarrinhoPorUserId(@Param("user") UUID user);
 
 }

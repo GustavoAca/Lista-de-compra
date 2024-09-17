@@ -4,6 +4,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Objects;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,6 +24,21 @@ public class SecurityContextUtils {
 
         if (matcher.find()) {
             return matcher.group(1).trim();
+        }
+        return null;
+    }
+
+    public static UUID getId() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return Objects.nonNull(auth) ? extractId(auth.getName()) : null;
+    }
+
+    private static UUID extractId(String input) {
+        Pattern pattern = Pattern.compile("userId=([^,\\]]+)");
+        Matcher matcher = pattern.matcher(input);
+
+        if (matcher.find()) {
+            return UUID.fromString(matcher.group(1).trim());
         }
         return null;
     }

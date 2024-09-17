@@ -6,7 +6,7 @@ CREATE TABLE USERS (
 	MODIFIED_DATE        timestamp with time zone   NULL,
 	CREATED_BY           VARCHAR(100)               NULL,
 	MODIFIED_BY          VARCHAR(100)               NULL,
-	CONSTRAINT USERS_FK PRIMARY KEY ( ID )
+	CONSTRAINT USERS_PK PRIMARY KEY ( ID )
  );
 
  CREATE TABLE ROLES (

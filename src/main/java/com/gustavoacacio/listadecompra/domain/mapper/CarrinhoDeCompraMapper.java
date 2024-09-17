@@ -1,6 +1,7 @@
 package com.gustavoacacio.listadecompra.domain.mapper;
 
 import com.gustavoacacio.listadecompra.domain.model.ItemNoCarrinho;
+import com.gustavoacacio.listadecompra.domain.model.User;
 import com.gustavoacacio.listadecompra.domain.model.carrinhodecompra.CarrinhoDeCompra;
 import com.gustavoacacio.listadecompra.domain.model.dto.CarrinhoDeCompraDto;
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemNoCarrinhoDto;
@@ -21,6 +22,7 @@ public class CarrinhoDeCompraMapper {
         return CarrinhoDeCompraDto.builder()
                 .id(entity.getId())
                 .itens(toItensDtos(entity.getItens()))
+                .userId(entity.getUsuario().getId())
                 .createdBy(entity.getCreatedBy())
                 .createdDate(entity.getCreatedDate())
                 .modifiedDate(entity.getModifiedDate())
@@ -36,6 +38,7 @@ public class CarrinhoDeCompraMapper {
         return CarrinhoDeCompra.builder()
                 .id(dto.getId())
                 .itens(toItensEntity(dto.getItens()))
+                .usuario(User.builder().id(dto.getUserId()).build())
                 .createdDate(dto.getCreatedDate())
                 .createdBy(dto.getCreatedBy())
                 .modifiedBy(dto.getModifiedBy())
@@ -46,4 +49,5 @@ public class CarrinhoDeCompraMapper {
     private List<ItemNoCarrinho> toItensEntity(List<ItemNoCarrinhoDto> itensDtos) {
         return itensDtos.stream().map(itemNoCarrinhoMapper::toEntity).toList();
     }
+
 }
