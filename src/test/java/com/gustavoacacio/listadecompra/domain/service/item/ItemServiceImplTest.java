@@ -2,6 +2,7 @@ package com.gustavoacacio.listadecompra.domain.service.item;
 
 import com.gustavoacacio.listadecompra.ListaDeCompraApplicationTests;
 import com.gustavoacacio.listadecompra.domain.mapper.CompraMapper;
+import com.gustavoacacio.listadecompra.domain.mapper.ItemMapper;
 import com.gustavoacacio.listadecompra.domain.model.Item;
 import com.gustavoacacio.listadecompra.domain.model.Local;
 import com.gustavoacacio.listadecompra.domain.model.dto.CompraDto;
@@ -44,9 +45,12 @@ class ItemServiceImplTest extends ListaDeCompraApplicationTests {
     @Autowired
     private LocalService localService;
 
+    @Autowired
+    private ItemMapper itemMapper;
+
     @BeforeEach
     void setup() {
-        compraService = new CompraServiceImpl(repository, compraMapper, itemService, itemProducer);
+        compraService = new CompraServiceImpl(repository, compraMapper, itemService, itemProducer, itemMapper);
     }
 
 
@@ -62,13 +66,15 @@ class ItemServiceImplTest extends ListaDeCompraApplicationTests {
                     .nome("Local")
                     .build();
             local = localService.salvar(local);
+            var item = ItemDto.builder()
+                    .nome(nome)
+                    .valor(BigDecimal.ONE)
+                    .quantidade(1L)
+                    .localId(local.getId())
+                    .build();
+            item = itemMapper.toDto(itemService.salvar(itemMapper.toEntity(item)));
             compraDto = CompraDto.builder()
-                    .items(List.of(ItemDto.builder()
-                            .nome(nome)
-                            .valor(BigDecimal.ONE)
-                            .quantidade(1L)
-                            .localId(local.getId())
-                            .build()))
+                    .items(List.of(item))
                     .build();
             compraDto = compraService.salvar(compraDto);
         }

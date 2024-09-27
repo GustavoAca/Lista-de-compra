@@ -10,7 +10,6 @@ public class TipoHistoricoItemFactory implements TipoHistoricoService<ItemDto, H
     @Override
     public HistoricoItem fabricar(ItemDto dto) {
         return HistoricoItem.builder()
-                .compraId(dto.getCompraId())
                 .itemId(dto.getId())
                 .valorItem(dto.getValor())
                 .localId(dto.getLocalId())

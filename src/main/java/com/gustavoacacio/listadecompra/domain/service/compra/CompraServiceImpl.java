@@ -3,6 +3,7 @@ package com.gustavoacacio.listadecompra.domain.service.compra;
 
 import com.gustavoacacio.listadecompra.core.service.JpaServiceImpl;
 import com.gustavoacacio.listadecompra.domain.mapper.CompraMapper;
+import com.gustavoacacio.listadecompra.domain.mapper.ItemMapper;
 import com.gustavoacacio.listadecompra.domain.model.Compra;
 import com.gustavoacacio.listadecompra.domain.model.dto.CompraDto;
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
@@ -18,9 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class CompraServiceImpl extends JpaServiceImpl<Compra, Long, CompraRepository> implements CompraService {
@@ -28,59 +28,43 @@ public class CompraServiceImpl extends JpaServiceImpl<Compra, Long, CompraReposi
     private final CompraMapper compraMapper;
     private final ItemService itemService;
     private final ItemProducer itemProducer;
+    private final ItemMapper itemMapper;
 
     public CompraServiceImpl(CompraRepository repo,
                              CompraMapper compraMapper,
                              ItemService itemService,
-                             ItemProducer itemProducer) {
+                             ItemProducer itemProducer, ItemMapper itemMapper) {
         super(repo);
         this.compraMapper = compraMapper;
         this.itemService = itemService;
         this.itemProducer = itemProducer;
+        this.itemMapper = itemMapper;
     }
 
     @CacheEvict(value = {"listaDeCompra", "listaDeItem"}, allEntries = true)
     public CompraDto salvar(CompraDto compraDto) {
-        CompraDto compraDtoNova = fabricarCompra(compraDto);
-        var compraSalva = compraMapper.toDto(super.salvar(compraMapper.toEntity(adicionarItens(compraDto, compraDtoNova))));
-        compraSalva.getItems().forEach(itemProducer::fabricarHistorico);
-        return compraSalva;
+        buscarItens(compraDto);
+        compraDto = compraMapper.toDto(repo.save(compraMapper.toEntity(compraDto)));
+        return compraDto;
     }
 
-    private CompraDto fabricarCompra(CompraDto compraDto) {
-        Compra compra = Compra.builder().build();
-        if (Objects.nonNull(compraDto.getId())) {
-            compra = repo.findById(compraDto.getId())
-                    .orElseThrow(() -> new RegistroNaoEncontradoException(compraDto.getId(), CompraDto.class.getName()));
-        } else {
-            compra = repo.save(compra);
-        }
-        return compraMapper.toDto(compra);
-    }
-
-    private CompraDto adicionarItens(CompraDto compraDto, CompraDto compraDtoNova) {
-        List<ItemDto> items = new LinkedList<>();
-        BigDecimal valorTotal = BigDecimal.ZERO;
-        for (ItemDto itemDto : compraDto.getItems()) {
-            if (Objects.nonNull(itemDto.getId())) {
-                var item = itemService.buscarPorId(itemDto.getId());
-                if (item.isPresent()) {
-                    itemDto.setId(item.get().getId());
-                    itemDto.setCompraId(compraDtoNova.getId());
-                    items.add(itemDto);
-                } else {
-                    itemDto.setCompraId(compraDtoNova.getId());
-                    items.add(itemDto);
-                }
-            } else {
-                itemDto.setCompraId(compraDtoNova.getId());
-                items.add(itemDto);
+    private void buscarItens(CompraDto compraDto) {
+        if (!compraDto.getItems().isEmpty()) {
+            List<ItemDto> itens = new ArrayList<>();
+            for (int i = 0; i < compraDto.getItems().size(); i++) {
+                var item = compraDto.getItems().get(i);
+                var itemEncontrado = itemService.buscarPorId(item.getId())
+                        .orElseThrow(() -> new RegistroNaoEncontradoException(item.getId(), item.getClass().getName()));
+                ItemDto itemDto = itemMapper.toDto(itemEncontrado);
+                compraDto.setValorTotal(calcularTotal(compraDto.getValorTotal(), itemDto.getValor(), item.getQuantidade()));
+                itens.add(itemDto);
             }
-            valorTotal = valorTotal.add(itemDto.getValor().multiply(BigDecimal.valueOf(itemDto.getQuantidade())));
+            compraDto.setItems(itens);
         }
-        compraDtoNova.setItems(items);
-        compraDtoNova.setValorTotal(valorTotal);
-        return compraDtoNova;
+    }
+
+    private BigDecimal calcularTotal(BigDecimal valorTotal, BigDecimal valorProduto, Long quantiade) {
+        return valorTotal.add(valorProduto.multiply(BigDecimal.valueOf(quantiade)));
     }
 
     @Override

@@ -19,9 +19,11 @@ public class CompraDto implements Serializable {
     private Long id;
     @Builder.Default
     private List<ItemDto> items = new LinkedList<>();
-    private BigDecimal valorTotal;
+    @Builder.Default
+    private BigDecimal valorTotal = BigDecimal.ZERO;
     private LocalDateTime modifiedDate;
     private String modifiedBy;
     private LocalDateTime createdDate;
     private String createdBy;
+    private Long version;
 }

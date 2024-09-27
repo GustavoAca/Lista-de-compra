@@ -29,6 +29,9 @@ public abstract class EntityAbstract extends EntityCreatedAbstract {
     @LastModifiedBy
     private String modifiedBy;
 
+    @Version
+    private long version;
+
     @Access(AccessType.PROPERTY)
     public void setModifiedDate(LocalDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;

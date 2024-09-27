@@ -1,7 +1,6 @@
 package com.gustavoacacio.listadecompra.domain.mapper;
 
 import com.gustavoacacio.listadecompra.ListaDeCompraApplicationTests;
-import com.gustavoacacio.listadecompra.domain.model.Compra;
 import com.gustavoacacio.listadecompra.domain.model.Item;
 import com.gustavoacacio.listadecompra.domain.model.Local;
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
@@ -38,9 +37,6 @@ class ItemMapperTest extends ListaDeCompraApplicationTests {
                     .nome("Arroz")
                     .valor(BigDecimal.ONE)
                     .local(local)
-                    .compra(Compra.builder()
-                            .id(1L)
-                            .build())
                     .quantidade(1L)
                     .build();
         }
@@ -59,7 +55,6 @@ class ItemMapperTest extends ListaDeCompraApplicationTests {
                 assertEquals(1L, itemDto.getId());
                 assertEquals("Arroz", itemDto.getNome());
                 assertEquals(BigDecimal.ONE, itemDto.getValor());
-                assertEquals(1L, itemDto.getCompraId());
                 assertEquals(1L, itemDto.getQuantidade());
             }
         }
@@ -80,7 +75,6 @@ class ItemMapperTest extends ListaDeCompraApplicationTests {
                     .nome("Arroz")
                     .valor(BigDecimal.ONE)
                     .localId(local.getId())
-                    .compraId(1L)
                     .quantidade(1L)
                     .build();
         }
@@ -99,7 +93,6 @@ class ItemMapperTest extends ListaDeCompraApplicationTests {
                 assertEquals(1L, item.getId());
                 assertEquals("Arroz", item.getNome());
                 assertEquals(BigDecimal.ONE, item.getValor());
-                assertEquals(1L, item.getCompra().getId());
                 assertEquals(1L, item.getQuantidade());
             }
         }

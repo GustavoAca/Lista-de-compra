@@ -5,7 +5,6 @@ import com.gustavoacacio.listadecompra.core.utils.SecurityContextUtils;
 import com.gustavoacacio.listadecompra.domain.mapper.CarrinhoDeCompraMapper;
 import com.gustavoacacio.listadecompra.domain.model.carrinhodecompra.CarrinhoDeCompra;
 import com.gustavoacacio.listadecompra.domain.model.dto.CarrinhoDeCompraDto;
-import com.gustavoacacio.listadecompra.domain.model.dto.ItemNoCarrinhoDto;
 import com.gustavoacacio.listadecompra.domain.repository.jpa.CarrinhoDeCompraRepository;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +25,6 @@ public class CarrinhoDeCompraServiceImpl extends JpaServiceImpl<CarrinhoDeCompra
     public CarrinhoDeCompraDto salvar(CarrinhoDeCompraDto carrinhoDeCompraDto) {
         var carrinho = carrinhoDeCompraMapper.toDto(pegarCarrinhoOuFabricar());
         carrinho.setItens(carrinhoDeCompraDto.getItens());
-        for (ItemNoCarrinhoDto itemNoCarrinho : carrinho.getItens()) {
-            itemNoCarrinho.setCarrinhoDeCompra(carrinho.getId());
-        }
         return carrinhoDeCompraMapper.toDto(this.salvar(carrinhoDeCompraMapper.toEntity(carrinho)));
     }
 
@@ -38,8 +34,12 @@ public class CarrinhoDeCompraServiceImpl extends JpaServiceImpl<CarrinhoDeCompra
     }
 
     @Override
-    public Optional<CarrinhoDeCompraDto> encontrarPorUser() {
+    public CarrinhoDeCompraDto encontrarPorUser() {
         Optional<CarrinhoDeCompra> carrinhoDeCompra = repo.findCarrinhoPorUserId(SecurityContextUtils.getId());
-        return carrinhoDeCompra.map(carrinhoDeCompraMapper::toDto);
+        if (carrinhoDeCompra.isPresent()) {
+            carrinhoDeCompra.map(carrinhoDeCompraMapper::toDto);
+
+        }
+        return CarrinhoDeCompraDto.builder().build();
     }
 }

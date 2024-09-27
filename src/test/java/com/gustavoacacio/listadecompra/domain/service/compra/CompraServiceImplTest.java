@@ -2,6 +2,7 @@ package com.gustavoacacio.listadecompra.domain.service.compra;
 
 import com.gustavoacacio.listadecompra.ListaDeCompraApplicationTests;
 import com.gustavoacacio.listadecompra.domain.mapper.CompraMapper;
+import com.gustavoacacio.listadecompra.domain.mapper.ItemMapper;
 import com.gustavoacacio.listadecompra.domain.model.Local;
 import com.gustavoacacio.listadecompra.domain.model.dto.CompraDto;
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
@@ -40,9 +41,12 @@ class CompraServiceImplTest extends ListaDeCompraApplicationTests {
     @Autowired
     private LocalService localService;
 
+    @Autowired
+    private ItemMapper itemMapper;
+
     @BeforeEach
     void setup() {
-        compraService = new CompraServiceImpl(repository, compraMapper, itemService, itemProducer);
+        compraService = new CompraServiceImpl(repository, compraMapper, itemService, itemProducer, itemMapper);
     }
 
     @Nested
@@ -57,17 +61,20 @@ class CompraServiceImplTest extends ListaDeCompraApplicationTests {
             localService.salvar(local);
 
             ItemDto item1 = ItemDto.builder()
+                    .id(1L)
                     .valor(BigDecimal.valueOf(10.00))
                     .quantidade(1L)
                     .localId(local.getId())
                     .nome("Arroz").build();
             ItemDto item2 = ItemDto.builder()
+                    .id(2L)
                     .valor(BigDecimal.valueOf(10.00))
                     .quantidade(1L)
                     .localId(local.getId())
                     .nome("Feijão")
                     .build();
-
+            itemService.salvar(itemMapper.toEntity(item1));
+            itemService.salvar(itemMapper.toEntity(item2));
             compraDto = CompraDto.builder()
                     .items(List.of(item1, item2))
                     .build();
@@ -86,7 +93,7 @@ class CompraServiceImplTest extends ListaDeCompraApplicationTests {
             void Entao_deve_ter_sucesso() {
                 assertNotNull(compraSalva);
                 assertEquals(2L, compraSalva.getItems().size());
-                assertEquals(new BigDecimal("20.0"), compraSalva.getValorTotal());
+                assertEquals(new BigDecimal("20.00"), compraSalva.getValorTotal());
             }
         }
     }

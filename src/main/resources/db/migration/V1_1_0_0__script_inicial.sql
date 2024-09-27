@@ -6,6 +6,7 @@ CREATE TABLE USERS (
 	MODIFIED_DATE        timestamp with time zone   NULL,
 	CREATED_BY           VARCHAR(100)               NULL,
 	MODIFIED_BY          VARCHAR(100)               NULL,
+    VERSION              SERIAL                     NOT NULL,
 	CONSTRAINT USERS_PK PRIMARY KEY ( ID )
  );
 
@@ -16,6 +17,7 @@ CREATE TABLE USERS (
      MODIFIED_DATE        timestamp with time zone   NULL,
      CREATED_BY           VARCHAR(100)               NULL,
      MODIFIED_BY          VARCHAR(100)               NULL,
+     VERSION              SERIAL                     NOT NULL,
      CONSTRAINT ROLES_PK PRIMARY KEY ( ID )
  );
 
@@ -35,6 +37,7 @@ CREATE TABLE LOCAIS (
 	MODIFIED_DATE        timestamp with time zone  NULL,
 	CREATED_BY           VARCHAR(100)              NULL,
 	MODIFIED_BY          VARCHAR(100)              NULL,
+    VERSION              SERIAL                    NOT NULL,
 	CONSTRAINT LOCAIS_PK PRIMARY KEY ( ID )
  );
 
@@ -45,56 +48,51 @@ CREATE TABLE COMPRAS (
     	MODIFIED_DATE        timestamp with time zone   NULL,
     	CREATED_BY           VARCHAR(100)               NULL,
     	MODIFIED_BY          VARCHAR(100)               NULL,
+    	VERSION              SERIAL                     NOT NULL,
     	CONSTRAINT COMPRA_UK PRIMARY KEY ( ID )
  );
 
-CREATE TABLE CARRINHO_DE_COMPRA (
+CREATE TABLE CARRINHO_DE_COMPRAS (
      	ID                   SERIAL                     NOT NULL,
      	USER_ID               UUID                      NOT NULL,
      	CREATED_DATE         timestamp with time zone   NULL,
      	MODIFIED_DATE        timestamp with time zone   NULL,
      	CREATED_BY           VARCHAR(100)               NULL,
      	MODIFIED_BY          VARCHAR(100)               NULL,
+     	VERSION              SERIAL                     NOT NULL,
      	CONSTRAINT CARRINHO_DE_COMPRA_UK PRIMARY KEY ( ID )
   );
 
-ALTER TABLE CARRINHO_DE_COMPRA ADD CONSTRAINT FK_CARRINHO_DE_COMPRA_USER_ID FOREIGN KEY ( USER_ID ) REFERENCES USERS( ID );
-
-
-CREATE TABLE ITENS_NO_CARRINHO (
-	ID                    SERIAL                    NOT NULL,
-	CARRINHO_DE_COMPRA_ID SERIAL                    NOT NULL,
-	NOME                  VARCHAR(250)              NULL,
-	QUANTIDADE            BIGINT                    NULL,
-	PROMOCAO              BOOLEAN                   NULL,
-	VALOR                 NUMERIC(15, 2)            NULL,
-	CREATED_DATE          timestamp with time zone  NULL,
-	MODIFIED_DATE         timestamp with time zone  NULL,
-	CREATED_BY            VARCHAR(100)              NULL,
-	MODIFIED_BY           VARCHAR(100)              NULL,
-	CONSTRAINT ITENS_NO_CARRINHO_PK PRIMARY KEY ( ID )
- );
-
-ALTER TABLE ITENS_NO_CARRINHO ADD CONSTRAINT FK_ITENS_NO_CARRINHO_CARRINHO_DE_COMPRA_ID FOREIGN KEY ( CARRINHO_DE_COMPRA_ID ) REFERENCES CARRINHO_DE_COMPRA( ID );
+ALTER TABLE CARRINHO_DE_COMPRAS ADD CONSTRAINT FK_CARRINHO_DE_COMPRAS_USER_ID FOREIGN KEY ( USER_ID ) REFERENCES USERS( ID );
 
 CREATE TABLE ITENS (
 	ID                    SERIAL                    NOT NULL,
-	COMPRA_ID             SERIAL                    NOT NULL,
-	CARRINHO_DE_COMPRA_ID SERIAL                    NOT NULL,
 	LOCAL_ID              UUID                      NOT NULL,
 	NOME                  VARCHAR(250)              NOT NULL,
-	QUANTIDADE            BIGINT                    NOT NULL,
+	QUANTIDADE            BIGINT                    NULL,
 	PROMOCAO              BOOLEAN                   NOT NULL,
 	VALOR                 NUMERIC(15, 2)            NOT NULL,
 	CREATED_DATE          timestamp with time zone  NULL,
 	MODIFIED_DATE         timestamp with time zone  NULL,
 	CREATED_BY            VARCHAR(100)              NULL,
 	MODIFIED_BY           VARCHAR(100)              NULL,
+	VERSION              SERIAL                     NOT NULL,
 	CONSTRAINT ITENS_PK PRIMARY KEY ( ID )
  );
 
-ALTER TABLE ITENS ADD CONSTRAINT FK_ITENS_COMPRA_ID FOREIGN KEY ( COMPRA_ID ) REFERENCES COMPRAS( ID );
-ALTER TABLE ITENS ADD CONSTRAINT FK_ITENS_LOCAL_ID FOREIGN KEY ( LOCAL_ID ) REFERENCES LOCAIS( ID );
+ CREATE TABLE COMPRA_TEM_ITEM (
+     COMPRA_ID  SERIAL NOT NULL,
+     ITEM_ID                SERIAL NOT NULL,
+     CONSTRAINT FK_COMPRA_TEM_ITEM FOREIGN KEY (ITEM_ID) REFERENCES ITENS(ID),
+     CONSTRAINT FK_COMPRA FOREIGN KEY (COMPRA_ID) REFERENCES COMPRAS(ID)
+ );
+
+CREATE TABLE CARRINHO_DE_COMPRAS_TEM_ITEM (
+ 	CARRINHO_DE_COMPRA_ID           SERIAL NOT NULL,
+ 	ITEM_ID                         SERIAL NOT NULL,
+ 	CONSTRAINT FK_CARRINHO_DE_COMPRAS_TEM_ITEM_ITEM_ID FOREIGN KEY (ITEM_ID) REFERENCES ITENS(ID),
+    CONSTRAINT FK_CARRINHO_DE_COMPRAS_TEM_ITEM_COMPRA_ID FOREIGN KEY (CARRINHO_DE_COMPRA_ID) REFERENCES CARRINHO_DE_COMPRAS(ID)
+  );
 
 CREATE TABLE HISTORICO_ITENS (
  	ID                   SERIAL                     NOT NULL,
@@ -106,5 +104,6 @@ CREATE TABLE HISTORICO_ITENS (
  	MODIFIED_DATE        timestamp with time zone   NULL,
  	CREATED_BY           VARCHAR(100)               NULL,
  	MODIFIED_BY          VARCHAR(100)               NULL,
+ 	VERSION              SERIAL                     NOT NULL,
  	CONSTRAINT HISTORICO_ITENS_PK PRIMARY KEY ( ID )
 );

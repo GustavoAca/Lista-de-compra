@@ -26,7 +26,6 @@ class TipoHistoricoItemFactoryTest extends ListaDeCompraApplicationTests {
             itemDto = ItemDto.builder()
                     .id(1L)
                     .localId(UUID.randomUUID())
-                    .compraId(1L)
                     .valor(BigDecimal.ONE)
                     .build();
 

@@ -23,4 +23,5 @@ public class LocalDto implements Serializable {
     private String modifiedBy;
     private LocalDateTime createdDate;
     private String createdBy;
+    private Long version;
 }

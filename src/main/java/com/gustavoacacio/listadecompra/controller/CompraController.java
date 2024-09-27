@@ -27,4 +27,11 @@ public class CompraController {
     public ResponseEntity<Page<CompraDto>> listar(@PageableDefault(page = 0, size = 20) Pageable pageable) {
         return ResponseEntity.ok(compraService.listar(pageable));
     }
+
+    @DeleteMapping("/{id}")
+    public void excluir(@PathVariable Long id) {
+        compraService.deletar(id);
+    }
+
+
 }

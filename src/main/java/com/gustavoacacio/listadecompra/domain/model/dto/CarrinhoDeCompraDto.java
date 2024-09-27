@@ -17,10 +17,11 @@ public class CarrinhoDeCompraDto implements Serializable {
 
     private Long id;
     @Builder.Default
-    private List<ItemNoCarrinhoDto> itens = new ArrayList<>();
+    private List<ItemDto> itens = new ArrayList<>();
     private UUID userId;
     private LocalDateTime modifiedDate;
     private String modifiedBy;
     private LocalDateTime createdDate;
     private String createdBy;
+    private Long version;
 }

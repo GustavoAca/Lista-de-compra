@@ -24,10 +24,10 @@ public class ItemDto implements Serializable {
     private String nome;
     private Long quantidade;
     private BigDecimal valor;
-    private Long compraId;
     private UUID localId;
     private LocalDateTime modifiedDate;
     private String modifiedBy;
     private LocalDateTime createdDate;
     private String createdBy;
+    private Long version;
 }

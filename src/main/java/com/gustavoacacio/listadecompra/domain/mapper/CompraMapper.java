@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class CompraMapper {
@@ -19,14 +20,18 @@ public class CompraMapper {
     }
 
     public Compra toEntity(CompraDto compraDto) {
-        return Compra.builder().id(compraDto.getId())
-                .items(toListItemsEntity(compraDto.getItems()))
+        var c = Compra.builder().id(compraDto.getId())
+                .itens(toListItemsEntity(compraDto.getItems()))
                 .valorTotal(compraDto.getValorTotal())
                 .createdBy(compraDto.getCreatedBy())
                 .createdDate(compraDto.getCreatedDate())
                 .modifiedBy(compraDto.getModifiedBy())
                 .modifiedDate(compraDto.getModifiedDate())
                 .build();
+
+        if (Objects.nonNull(compraDto.getVersion())) c.setVersion(compraDto.getVersion());
+
+        return c;
     }
 
     private List<Item> toListItemsEntity(List<ItemDto> items) {
@@ -35,18 +40,22 @@ public class CompraMapper {
     }
 
     public CompraDto toDto(Compra compra) {
-        return CompraDto.builder().id(compra.getId())
-                .items(toListItemsDto(compra.getItems()))
+        var c = CompraDto.builder().id(compra.getId())
+                .items(toListItensDto(compra.getItens()))
                 .valorTotal(compra.getValorTotal())
                 .createdBy(compra.getCreatedBy())
                 .createdDate(compra.getCreatedDate())
                 .modifiedBy(compra.getModifiedBy())
                 .modifiedDate(compra.getModifiedDate())
                 .build();
+
+        if (Objects.nonNull(compra.getVersion())) c.setVersion(compra.getVersion());
+
+        return c;
     }
 
-    private List<ItemDto> toListItemsDto(List<Item> items) {
-        if (items.isEmpty()) return Collections.emptyList();
-        return items.stream().map(itemMapper::toDto).toList();
+    private List<ItemDto> toListItensDto(List<Item> itens) {
+        if (itens.isEmpty()) return Collections.emptyList();
+        return itens.stream().map(itemMapper::toDto).toList();
     }
 }

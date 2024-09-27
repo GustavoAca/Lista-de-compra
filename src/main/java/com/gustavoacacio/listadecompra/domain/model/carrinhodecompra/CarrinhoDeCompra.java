@@ -1,7 +1,7 @@
 package com.gustavoacacio.listadecompra.domain.model.carrinhodecompra;
 
 import com.gustavoacacio.listadecompra.core.model.EntityAbstract;
-import com.gustavoacacio.listadecompra.domain.model.ItemNoCarrinho;
+import com.gustavoacacio.listadecompra.domain.model.Item;
 import com.gustavoacacio.listadecompra.domain.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,6 +31,11 @@ public class CarrinhoDeCompra extends EntityAbstract implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User usuario;
 
-    @OneToMany(mappedBy = "carrinhoDeCompra", cascade = CascadeType.ALL)
-    private List<ItemNoCarrinho> itens = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "carrinho_de_compra_tem_item",
+            joinColumns = @JoinColumn(name = "carrinho_de_compra_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id")
+    )
+    private List<Item> itens = new ArrayList<>();
 }

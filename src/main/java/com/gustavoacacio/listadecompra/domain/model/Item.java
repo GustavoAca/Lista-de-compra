@@ -32,10 +32,6 @@ public class Item extends EntityAbstract {
     private Boolean promocao = Boolean.FALSE;
 
     @ManyToOne
-    @JoinColumn(name = "compra_id")
-    private Compra compra;
-
-    @ManyToOne
     @JoinColumn(name = "local_id")
     private Local local;
 }

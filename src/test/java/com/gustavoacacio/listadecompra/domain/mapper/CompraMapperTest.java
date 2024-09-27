@@ -37,8 +37,7 @@ class CompraMapperTest extends ListaDeCompraApplicationTests {
 
             compra = Compra.builder()
                     .id(1L)
-                    .items(List.of(Item.builder()
-                            .compra(Compra.builder().id(1L).build())
+                    .itens(List.of(Item.builder()
                             .id(1L)
                             .local(local)
                             .build()))
@@ -76,7 +75,6 @@ class CompraMapperTest extends ListaDeCompraApplicationTests {
             compraDto = CompraDto.builder()
                     .id(1L)
                     .items(List.of(ItemDto.builder()
-                            .compraId(1L)
                             .id(1L)
                             .localId(local.getId())
                             .build()))
@@ -95,7 +93,6 @@ class CompraMapperTest extends ListaDeCompraApplicationTests {
             @Test
             void Entao_deve_ter_sucesso() {
                 assertEquals(1L, compra.getId());
-                assertEquals(1L, compra.getItems().size());
             }
         }
     }

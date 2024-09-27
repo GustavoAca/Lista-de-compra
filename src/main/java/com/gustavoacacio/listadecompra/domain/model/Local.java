@@ -2,11 +2,12 @@ package com.gustavoacacio.listadecompra.domain.model;
 
 import com.gustavoacacio.listadecompra.core.model.EntityAbstract;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -23,8 +24,4 @@ public class Local extends EntityAbstract {
     private UUID id;
 
     private String nome;
-
-    @OneToMany(mappedBy = "local")
-    @Builder.Default
-    private List<Item> itens = new ArrayList<>();
 }
