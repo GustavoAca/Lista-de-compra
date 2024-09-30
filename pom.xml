@@ -4,14 +4,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.gustavoacacio</groupId>
 	<artifactId>listadecompra</artifactId>
-	<version>1.28.0</version>
+	<version>1.1.0</version>
 	<name>Lista de compra</name>
 	<description>Demo project for Spring Boot</description>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.2.7</version>
-        <relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
     </parent>
 	<url/>
 	<licenses>
