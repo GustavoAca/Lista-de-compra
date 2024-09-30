@@ -53,7 +53,6 @@ class ItemServiceImplTest extends ListaDeCompraApplicationTests {
         compraService = new CompraServiceImpl(repository, compraMapper, itemService, itemProducer, itemMapper);
     }
 
-
     @Nested
     class Dado_um_item_salvo extends ListaDeCompraApplicationTests {
         private CompraDto compraDto;

@@ -20,7 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 @SuperBuilder
 @Entity
-@Table(name = "carrinho_de_compra")
+@Table(name = "carrinho_de_compras")
 public class CarrinhoDeCompra extends EntityAbstract implements Serializable {
 
     @Id
@@ -33,7 +33,7 @@ public class CarrinhoDeCompra extends EntityAbstract implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(
-            name = "carrinho_de_compra_tem_item",
+            name = "carrinho_de_compras_tem_item",
             joinColumns = @JoinColumn(name = "carrinho_de_compra_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id")
     )
