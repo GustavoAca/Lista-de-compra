@@ -12,8 +12,9 @@ values ('f71d0268-7cbe-47c0-847b-0b2604c301eb', 'Shibata', current_timestamp, cu
 
 
 INSERT INTO ITENS (id, nome, promocao, quantidade, valor, local_id, modified_date, modified_by, created_date, created_by, version) VALUES
- (46, 'Arroz',false, 1, 20.50, 'f71d0268-7cbe-47c0-847b-0b2604c301eb', current_timestamp, 'admin', current_timestamp, 'admin', 1),
- (47, 'Feijão',false, 2, 15.30, 'f71d0268-7cbe-47c0-847b-0b2604c301eb', current_timestamp, 'admin', current_timestamp, 'admin', 1),
- (48, 'Macarrão', false,3, 8.99, 'f71d0268-7cbe-47c0-847b-0b2604c301eb', current_timestamp, 'admin', current_timestamp, 'admin', 1),
- (49, 'Açúcar',false, 1, 5.40, 'f71d0268-7cbe-47c0-847b-0b2604c301eb', current_timestamp, 'admin', current_timestamp, 'admin', 1),
- (50, 'Sal',false, 1, 2.99, 'f71d0268-7cbe-47c0-847b-0b2604c301eb', current_timestamp, 'admin', current_timestamp, 'admin', 1);
+ (5107, 'Arroz',false, 1, 20.50, 'f71d0268-7cbe-47c0-847b-0b2604c301eb', current_timestamp, 'admin', current_timestamp, 'admin', 1),
+ (5108, 'Feijão',false, 2, 15.30, 'f71d0268-7cbe-47c0-847b-0b2604c301eb', current_timestamp, 'admin', current_timestamp, 'admin', 1),
+ (5109, 'Macarrão', false,3, 8.99, 'f71d0268-7cbe-47c0-847b-0b2604c301eb', current_timestamp, 'admin', current_timestamp, 'admin', 1),
+ (5110, 'Açúcar',false, 1, 5.40, 'f71d0268-7cbe-47c0-847b-0b2604c301eb', current_timestamp, 'admin', current_timestamp, 'admin', 1),
+ (5111, 'Sal',false, 1, 2.99, 'f71d0268-7cbe-47c0-847b-0b2604c301eb', current_timestamp, 'admin', current_timestamp, 'admin', 1);
+
