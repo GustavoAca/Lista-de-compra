@@ -9,11 +9,9 @@ import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
 import com.gustavoacacio.listadecompra.domain.repository.jpa.CompraRepository;
 import com.gustavoacacio.listadecompra.domain.service.item.ItemService;
 import com.gustavoacacio.listadecompra.domain.service.local.LocalService;
-import com.gustavoacacio.listadecompra.producer.ItemProducer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
@@ -25,9 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class CompraServiceImplTest extends ListaDeCompraApplicationTests {
 
     private CompraService compraService;
-
-    @Mock
-    private ItemProducer itemProducer;
 
     @Autowired
     private ItemService itemService;
@@ -46,7 +41,7 @@ class CompraServiceImplTest extends ListaDeCompraApplicationTests {
 
     @BeforeEach
     void setup() {
-        compraService = new CompraServiceImpl(repository, compraMapper, itemService, itemProducer, itemMapper);
+        compraService = new CompraServiceImpl(repository, compraMapper, itemService, itemMapper);
     }
 
     @Nested

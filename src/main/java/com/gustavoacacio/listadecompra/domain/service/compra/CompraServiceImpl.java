@@ -10,7 +10,6 @@ import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
 import com.gustavoacacio.listadecompra.domain.repository.jpa.CompraRepository;
 import com.gustavoacacio.listadecompra.domain.service.item.ItemService;
 import com.gustavoacacio.listadecompra.exception.RegistroNaoEncontradoException;
-import com.gustavoacacio.listadecompra.producer.ItemProducer;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -27,17 +26,15 @@ public class CompraServiceImpl extends JpaServiceImpl<Compra, Long, CompraReposi
 
     private final CompraMapper compraMapper;
     private final ItemService itemService;
-    private final ItemProducer itemProducer;
     private final ItemMapper itemMapper;
 
     public CompraServiceImpl(CompraRepository repo,
                              CompraMapper compraMapper,
                              ItemService itemService,
-                             ItemProducer itemProducer, ItemMapper itemMapper) {
+                             ItemMapper itemMapper) {
         super(repo);
         this.compraMapper = compraMapper;
         this.itemService = itemService;
-        this.itemProducer = itemProducer;
         this.itemMapper = itemMapper;
     }
 

@@ -12,12 +12,10 @@ import com.gustavoacacio.listadecompra.domain.service.compra.CompraService;
 import com.gustavoacacio.listadecompra.domain.service.compra.CompraServiceImpl;
 import com.gustavoacacio.listadecompra.domain.service.local.LocalService;
 import com.gustavoacacio.listadecompra.exception.RegistroNaoEncontradoException;
-import com.gustavoacacio.listadecompra.producer.ItemProducer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,9 +31,6 @@ class ItemServiceImplTest extends ListaDeCompraApplicationTests {
 
     private CompraService compraService;
 
-    @Mock
-    private ItemProducer itemProducer;
-
     @Autowired
     private CompraMapper compraMapper;
 
@@ -50,7 +45,7 @@ class ItemServiceImplTest extends ListaDeCompraApplicationTests {
 
     @BeforeEach
     void setup() {
-        compraService = new CompraServiceImpl(repository, compraMapper, itemService, itemProducer, itemMapper);
+        compraService = new CompraServiceImpl(repository, compraMapper, itemService, itemMapper);
     }
 
     @Nested
