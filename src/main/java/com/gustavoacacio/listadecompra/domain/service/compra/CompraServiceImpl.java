@@ -6,11 +6,13 @@ import com.gustavoacacio.listadecompra.domain.mapper.CompraMapper;
 import com.gustavoacacio.listadecompra.domain.mapper.ItemMapper;
 import com.gustavoacacio.listadecompra.domain.model.Compra;
 import com.gustavoacacio.listadecompra.domain.model.dto.CompraDto;
+import com.gustavoacacio.listadecompra.domain.model.dto.HistoricoItemDto;
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
+import com.gustavoacacio.listadecompra.domain.model.historico.TipoHistorico;
 import com.gustavoacacio.listadecompra.domain.repository.jpa.CompraRepository;
+import com.gustavoacacio.listadecompra.domain.service.historico.HistoricoItemService;
 import com.gustavoacacio.listadecompra.domain.service.item.ItemService;
 import com.gustavoacacio.listadecompra.exception.RegistroNaoEncontradoException;
-import com.gustavoacacio.listadecompra.producer.ItemProducer;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -27,24 +29,26 @@ public class CompraServiceImpl extends JpaServiceImpl<Compra, Long, CompraReposi
 
     private final CompraMapper compraMapper;
     private final ItemService itemService;
-    private final ItemProducer itemProducer;
     private final ItemMapper itemMapper;
+    private final HistoricoItemService historicoItemService;
 
     public CompraServiceImpl(CompraRepository repo,
                              CompraMapper compraMapper,
                              ItemService itemService,
-                             ItemProducer itemProducer, ItemMapper itemMapper) {
+                             ItemMapper itemMapper,
+                             HistoricoItemService historicoItemService) {
         super(repo);
         this.compraMapper = compraMapper;
         this.itemService = itemService;
-        this.itemProducer = itemProducer;
         this.itemMapper = itemMapper;
+        this.historicoItemService = historicoItemService;
     }
 
     @CacheEvict(value = {"listaDeCompra", "listaDeItem"}, allEntries = true)
     public CompraDto salvar(CompraDto compraDto) {
         buscarItens(compraDto);
-        compraDto = compraMapper.toDto(repo.save(compraMapper.toEntity(compraDto)));
+        compraDto = compraMapper.toDto(super.salvar(compraMapper.toEntity(compraDto)));
+        salvarHistoricoItem(compraDto);
         return compraDto;
     }
 
@@ -65,6 +69,24 @@ public class CompraServiceImpl extends JpaServiceImpl<Compra, Long, CompraReposi
 
     private BigDecimal calcularTotal(BigDecimal valorTotal, BigDecimal valorProduto, Long quantiade) {
         return valorTotal.add(valorProduto.multiply(BigDecimal.valueOf(quantiade)));
+    }
+
+    private void salvarHistoricoItem(CompraDto compra) {
+        HistoricoItemDto historicoItemDto = HistoricoItemDto.builder()
+                .compraId(compra.getId())
+                .build();
+
+        compra.getItems().forEach(i -> {
+            HistoricoItemDto h = fabricarHistorico(historicoItemDto, i);
+            historicoItemService.salvar(TipoHistorico.TIPO_HISTORICO_ITEM.getFactory().fabricar(h));
+        });
+    }
+
+    private HistoricoItemDto fabricarHistorico(HistoricoItemDto historicoItemDto, ItemDto itemDto) {
+        historicoItemDto.setItemId(itemDto.getId());
+        historicoItemDto.setValorItem(itemDto.getValor());
+        historicoItemDto.setLocalId(itemDto.getLocalId());
+        return historicoItemDto;
     }
 
     @Override

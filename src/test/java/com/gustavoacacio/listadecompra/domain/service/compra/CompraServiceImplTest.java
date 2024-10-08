@@ -7,13 +7,12 @@ import com.gustavoacacio.listadecompra.domain.model.Local;
 import com.gustavoacacio.listadecompra.domain.model.dto.CompraDto;
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
 import com.gustavoacacio.listadecompra.domain.repository.jpa.CompraRepository;
+import com.gustavoacacio.listadecompra.domain.service.historico.HistoricoItemService;
 import com.gustavoacacio.listadecompra.domain.service.item.ItemService;
 import com.gustavoacacio.listadecompra.domain.service.local.LocalService;
-import com.gustavoacacio.listadecompra.producer.ItemProducer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
@@ -25,9 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class CompraServiceImplTest extends ListaDeCompraApplicationTests {
 
     private CompraService compraService;
-
-    @Mock
-    private ItemProducer itemProducer;
 
     @Autowired
     private ItemService itemService;
@@ -44,9 +40,12 @@ class CompraServiceImplTest extends ListaDeCompraApplicationTests {
     @Autowired
     private ItemMapper itemMapper;
 
+    @Autowired
+    private HistoricoItemService historicoItemService;
+
     @BeforeEach
     void setup() {
-        compraService = new CompraServiceImpl(repository, compraMapper, itemService, itemProducer, itemMapper);
+        compraService = new CompraServiceImpl(repository, compraMapper, itemService, itemMapper, historicoItemService);
     }
 
     @Nested
@@ -73,8 +72,8 @@ class CompraServiceImplTest extends ListaDeCompraApplicationTests {
                     .localId(local.getId())
                     .nome("Feijão")
                     .build();
-            itemService.salvar(itemMapper.toEntity(item1));
-            itemService.salvar(itemMapper.toEntity(item2));
+            item1 = itemMapper.toDto(itemService.salvar(itemMapper.toEntity(item1)));
+            item2 = itemMapper.toDto(itemService.salvar(itemMapper.toEntity(item2)));
             compraDto = CompraDto.builder()
                     .items(List.of(item1, item2))
                     .build();

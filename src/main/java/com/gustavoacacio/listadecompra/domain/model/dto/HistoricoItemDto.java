@@ -1,5 +1,6 @@
 package com.gustavoacacio.listadecompra.domain.model.dto;
 
+import com.gustavoacacio.listadecompra.domain.model.historico.TipoTipoHistorico;
 import lombok.*;
 
 import java.io.Serializable;
@@ -12,7 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class HistoricoItemDto implements Serializable {
+public class HistoricoItemDto implements Serializable, TipoTipoHistorico {
 
     private Long id;
     private Long compraId;
