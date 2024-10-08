@@ -7,6 +7,7 @@ import com.gustavoacacio.listadecompra.domain.model.Local;
 import com.gustavoacacio.listadecompra.domain.model.dto.CompraDto;
 import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
 import com.gustavoacacio.listadecompra.domain.repository.jpa.CompraRepository;
+import com.gustavoacacio.listadecompra.domain.service.historico.HistoricoItemService;
 import com.gustavoacacio.listadecompra.domain.service.item.ItemService;
 import com.gustavoacacio.listadecompra.domain.service.local.LocalService;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,9 +40,12 @@ class CompraServiceImplTest extends ListaDeCompraApplicationTests {
     @Autowired
     private ItemMapper itemMapper;
 
+    @Autowired
+    private HistoricoItemService historicoItemService;
+
     @BeforeEach
     void setup() {
-        compraService = new CompraServiceImpl(repository, compraMapper, itemService, itemMapper);
+        compraService = new CompraServiceImpl(repository, compraMapper, itemService, itemMapper, historicoItemService);
     }
 
     @Nested
@@ -68,8 +72,8 @@ class CompraServiceImplTest extends ListaDeCompraApplicationTests {
                     .localId(local.getId())
                     .nome("Feijão")
                     .build();
-            itemService.salvar(itemMapper.toEntity(item1));
-            itemService.salvar(itemMapper.toEntity(item2));
+            item1 = itemMapper.toDto(itemService.salvar(itemMapper.toEntity(item1)));
+            item2 = itemMapper.toDto(itemService.salvar(itemMapper.toEntity(item2)));
             compraDto = CompraDto.builder()
                     .items(List.of(item1, item2))
                     .build();

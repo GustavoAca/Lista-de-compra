@@ -10,6 +10,7 @@ import com.gustavoacacio.listadecompra.domain.model.dto.ItemDto;
 import com.gustavoacacio.listadecompra.domain.repository.jpa.CompraRepository;
 import com.gustavoacacio.listadecompra.domain.service.compra.CompraService;
 import com.gustavoacacio.listadecompra.domain.service.compra.CompraServiceImpl;
+import com.gustavoacacio.listadecompra.domain.service.historico.HistoricoItemService;
 import com.gustavoacacio.listadecompra.domain.service.local.LocalService;
 import com.gustavoacacio.listadecompra.exception.RegistroNaoEncontradoException;
 import org.junit.jupiter.api.Assertions;
@@ -43,9 +44,12 @@ class ItemServiceImplTest extends ListaDeCompraApplicationTests {
     @Autowired
     private ItemMapper itemMapper;
 
+    @Autowired
+    private HistoricoItemService historicoItemService;
+
     @BeforeEach
     void setup() {
-        compraService = new CompraServiceImpl(repository, compraMapper, itemService, itemMapper);
+        compraService = new CompraServiceImpl(repository, compraMapper, itemService, itemMapper, historicoItemService);
     }
 
     @Nested
